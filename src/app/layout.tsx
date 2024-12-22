@@ -1,9 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
 const interFont = Inter({
   variable: '--font-inter',
+  subsets: ['latin']
+});
+
+const jetBrainsMonoFont = JetBrains_Mono({
+  variable: '--font-jetbrains-mono',
   subsets: ['latin']
 });
 
@@ -19,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${interFont.variable} ${interFont.variable} antialiased bg-[#09090B]`}>
+      <body
+        className={`${interFont.variable} ${interFont.className} ${jetBrainsMonoFont.variable} antialiased`}
+      >
         {children}
       </body>
     </html>
