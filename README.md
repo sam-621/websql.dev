@@ -1,3 +1,3 @@
 # Web SQL Client
 
-[Dev preview][https://websql.vercel.app]
+[Dev preview](https://websql.vercel.app)
