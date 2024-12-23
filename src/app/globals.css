@@ -24,6 +24,10 @@
     --input: 240 4.9% 83.9%;
     --ring: 240 5% 64.9%;
     --radius: 0.5rem;
+
+    /* monaco variables */
+    --vscode-editor-background: hsl(var(--background));
+    --vscode-editorGutter-background: hsl(var(--background));
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -59,5 +63,18 @@
 }
 
 .jetbrains_font {
-  font-family: var(--font-jetbrains-mono)
+  font-family: var(--font-jetbrains-mono);
+}
+
+/* Monaco editor */
+.monaco-editor .lines-content.monaco-editor-background {
+  margin-left: 4px;
+}
+
+.monaco-editor,
+.monaco-editor-background {
+  background-color: var(--background) !important;
+}
+.monaco-editor .margin {
+  background-color: var(--background) !important;
 }

@@ -7,7 +7,7 @@ export const Editor = () => {
 
   return (
     <MonacoEditor
-      height="100vh"
+      className="bg-background"
       options={{
         fontSize: 14,
         scrollBeyondLastLine: false,
@@ -15,8 +15,9 @@ export const Editor = () => {
           enabled: false
         },
         padding: {
-          top: 10
-        }
+          top: 18
+        },
+        lineNumbersMinChars: 3
       }}
       language={'sql'}
       theme="vs-dark"

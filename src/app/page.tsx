@@ -26,7 +26,7 @@ export default function Home() {
             </div>
             <div></div>
           </ResizablePanel>
-          <ResizableHandle withHandle />
+          <ResizableHandle />
           <ResizablePanel defaultSize={75} className="h-full">
             <Editor />
           </ResizablePanel>
