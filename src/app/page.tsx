@@ -1,3 +1,4 @@
+import { CreateConnectionButton } from '@/components/connection/create-connection/create-connection-button';
 import { Editor } from '@/components/editor/editor';
 import { Button } from '@/components/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
@@ -20,9 +21,7 @@ export default function Home() {
           <ResizablePanel defaultSize={25} className="divide-y bg-muted">
             <div className="flex items-center justify-between p-3">
               <h3 className="jetbrains_font">Connections</h3>
-              <Button size="icon" variant="ghost">
-                <PlusIcon size={16} />
-              </Button>
+              <CreateConnectionButton />
             </div>
             <div></div>
           </ResizablePanel>

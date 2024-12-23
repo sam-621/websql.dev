@@ -7,10 +7,10 @@ import {
   FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
   PrimitiveFormInput
 } from './form';
-import { Label } from '@/components/ui/label';
 
 export const FormInput = <
   TFieldValues extends FieldValues = FieldValues,
@@ -29,8 +29,8 @@ export const FormInput = <
       {...rest}
       name={name}
       render={({ field }) => (
-        <FormItem className={cn('w-full space-y-2', className)}>
-          {label && <Label>{label}</Label>}
+        <FormItem className={cn('w-full flex flex-col gap-2', className)}>
+          {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <PrimitiveFormInput type={type} placeholder={placeholder} {...field} />
           </FormControl>
