@@ -1,8 +1,5 @@
-// Dependencies: pnpm install lucide-react
-
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -11,27 +8,16 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { PlusIcon, ServerIcon } from 'lucide-react';
-import { useRef } from 'react';
-import { CreateConnectionForm } from './create-connection-form';
+import { ServerIcon } from 'lucide-react';
+import { FC } from 'react';
+import { UpsertConnectionForm } from './upsert-connection-form';
+import { Connection } from '@/lib/types/connection.type';
 
-export const CreateConnectionButton = () => {
-  const lastInputRef = useRef<HTMLInputElement>(null);
-
+export const UpsertConnectionButton: FC<Props> = ({ trigger: Trigger, connection }) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button size="icon" variant="outline">
-          <PlusIcon size={16} />
-        </Button>
-      </DialogTrigger>
-      <DialogContent
-        className="!max-w-none w-[520px]"
-        onOpenAutoFocus={e => {
-          e.preventDefault();
-          lastInputRef.current?.focus();
-        }}
-      >
+      <DialogTrigger asChild>{Trigger}</DialogTrigger>
+      <DialogContent className="!max-w-none w-[520px]">
         <div className="flex flex-col gap-2">
           <div
             className="flex size-11 shrink-0 items-center justify-center rounded-full border border-border"
@@ -47,8 +33,13 @@ export const CreateConnectionButton = () => {
           </DialogHeader>
         </div>
 
-        <CreateConnectionForm />
+        <UpsertConnectionForm connection={connection} />
       </DialogContent>
     </Dialog>
   );
+};
+
+type Props = {
+  trigger: React.ReactNode;
+  connection?: Connection;
 };

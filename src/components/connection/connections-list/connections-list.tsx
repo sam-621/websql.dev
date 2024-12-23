@@ -7,6 +7,7 @@ import { PencilIcon, Trash2Icon } from 'lucide-react';
 import { useLocalStorage } from '@/lib/hooks/use-local-storage';
 import { StorageKeys } from '@/lib/constants/storage.constants';
 import { Connection } from '@/lib/types/connection.type';
+import { UpsertConnectionButton } from '../upsert-connection/upsert-connection-button';
 
 export const ConnectionsList = () => {
   const { value: connections } = useLocalStorage<Connection[]>(StorageKeys.Connections, []);
@@ -25,13 +26,19 @@ export const ConnectionsList = () => {
             <p>{connection.name}</p>
           </div>
           <div>
-            <Button
-              className="opacity-0 group-hover:opacity-100 transition-all"
-              size="icon"
-              variant="link"
-            >
-              <PencilIcon size={16} />
-            </Button>
+            <UpsertConnectionButton
+              trigger={
+                <Button
+                  className="opacity-0 group-hover:opacity-100 transition-all"
+                  size="icon"
+                  variant="link"
+                >
+                  <PencilIcon size={16} />
+                </Button>
+              }
+              connection={connection}
+            />
+
             <Button
               className="opacity-0 group-hover:opacity-100 transition-all"
               size="icon"

@@ -2,32 +2,30 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormMessages } from '@/lib/form/form-messages';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { createConnection } from './create-connection';
+import { upsertConnection } from './upsert-connection';
 import { notification } from '@/lib/notification/notifications';
+import { Connection } from '@/lib/types/connection.type';
 
-export const useCreateConnectionForm = () => {
-  const form = useForm<CreateConnectionFormInput>({
+export const useUpsertConnectionForm = (connection?: Connection) => {
+  const form = useForm<UpsertConnectionFormInput>({
     defaultValues: {
-      name: '',
-      host: '',
-      port: 5432,
-      username: '',
-      password: '',
-      database: '',
-      type: 'postgresql'
+      name: connection?.name ?? '',
+      host: connection?.host ?? '',
+      port: connection?.port ?? 5432,
+      username: connection?.username ?? '',
+      password: connection?.password ?? '',
+      database: connection?.database ?? '',
+      type: connection?.type ?? 'postgresql'
     },
     resolver: zodResolver(schema)
   });
 
-  const onSubmit = (input: CreateConnectionFormInput) => {
-    const result = createConnection(input);
-    console.log({
-      result
-    });
+  const onSubmit = (input: UpsertConnectionFormInput) => {
+    const result = upsertConnection(connection ? { ...input, id: connection.id } : input);
 
     if (result?.error) {
       if (result.field) {
-        form.setError(result.field as keyof CreateConnectionFormInput, {
+        form.setError(result.field as keyof UpsertConnectionFormInput, {
           message: result.error
         });
 
@@ -37,7 +35,7 @@ export const useCreateConnectionForm = () => {
       notification.error(result.error);
     }
 
-    notification.success('Connection created');
+    notification.success(`Connection ${connection ? 'updated' : 'created'}`);
   };
 
   return {
@@ -56,4 +54,4 @@ const schema = z.object({
   type: z.enum(['postgresql', 'mysql'])
 });
 
-export type CreateConnectionFormInput = z.infer<typeof schema>;
+export type UpsertConnectionFormInput = z.infer<typeof schema>;

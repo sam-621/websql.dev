@@ -1,14 +1,15 @@
 import { Form } from '@/lib/form/form';
-import { CreateConnectionFormInput, useCreateConnectionForm } from './use-create-connection-form';
+import { useUpsertConnectionForm, UpsertConnectionFormInput } from './use-upsert-connection-form';
 import { FormInput } from '@/lib/form/form-input';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import Image from 'next/image';
+import { FC } from 'react';
+import { Connection } from '@/lib/types/connection.type';
 
-export const CreateConnectionForm = () => {
-  const form = useCreateConnectionForm();
-  console.log(form.formState.errors);
+export const UpsertConnectionForm: FC<Props> = ({ connection }) => {
+  const form = useUpsertConnectionForm(connection);
 
   return (
     <Form {...form}>
@@ -16,7 +17,7 @@ export const CreateConnectionForm = () => {
         <RadioGroup
           className="flex items-center gap-4"
           defaultValue={form.getValues('type')}
-          onValueChange={v => form.setValue('type', v as CreateConnectionFormInput['type'])}
+          onValueChange={v => form.setValue('type', v as UpsertConnectionFormInput['type'])}
         >
           {/* Radio card #1 */}
           <div className="relative flex w-full items-center justify-between gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
@@ -55,8 +56,12 @@ export const CreateConnectionForm = () => {
           <FormInput control={form.control} name="password" label="Password" type="password" />
         </div>
         <FormInput control={form.control} name="database" label="Database" />
-        <Button type="submit">Create</Button>
+        <Button type="submit">{connection ? 'Update' : 'Save'}</Button>
       </form>
     </Form>
   );
+};
+
+type Props = {
+  connection?: Connection;
 };
