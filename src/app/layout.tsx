@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Notification } from '@/lib/notification/notification';
 
 const interFont = Inter({
   variable: '--font-inter',
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${interFont.variable} ${interFont.className} ${jetBrainsMonoFont.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+          <Notification />
           {children}
         </ThemeProvider>
       </body>

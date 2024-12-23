@@ -8,13 +8,14 @@ import Image from 'next/image';
 
 export const CreateConnectionForm = () => {
   const form = useCreateConnectionForm();
+  console.log(form.formState.errors);
 
   return (
     <Form {...form}>
       <form onSubmit={form.onSubmit} className="flex flex-col gap-4">
         <RadioGroup
           className="flex items-center gap-4"
-          defaultValue="postgresql"
+          defaultValue={form.getValues('type')}
           onValueChange={v => form.setValue('type', v as CreateConnectionFormInput['type'])}
         >
           {/* Radio card #1 */}

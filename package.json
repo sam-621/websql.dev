@@ -26,7 +26,9 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "react-resizable-panels": "^2.1.7",
+    "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
+    "uuid": "^11.0.3",
     "yarn": "^1.22.22",
     "zod": "^3.24.1"
   },
