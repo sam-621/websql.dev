@@ -7,10 +7,10 @@ import { useConnectionStore } from '../connection/connection.store';
 import { executeQuery } from './execute-query';
 import { Button } from '../ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../ui/resizable';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { ResultPanel } from './result-panel';
 
 export const Editor = () => {
-  const [rows, setRows] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<Record<string, unknown>[]>([]);
   const [error, setError] = useState('');
   const [code, setCode] = useState<string>(`SELECT * FROM product`);
@@ -31,20 +31,20 @@ export const Editor = () => {
       return;
     }
 
+    setError('');
+    setResult([]);
+
+    setIsLoading(true);
     const result = await executeQuery(selectedConnection, code);
-    console.log({
-      result
-    });
 
     if (!result.success) {
       setError(result.error);
+      setIsLoading(false);
       return;
     }
 
-    const rows = Object.keys(result.rows[0]).map(key => key);
-    setRows(rows);
     setResult(result.rows);
-    console.log({ rows });
+    setIsLoading(false);
   };
 
   return (
@@ -90,41 +90,11 @@ export const Editor = () => {
             />
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel minSize={4}>
-            <div className="h-full">
-              <div className="bg-muted p-1">
-                <p className="jetbrains_font">Results</p>
-              </div>
-              <div className="h-[calc(100%-32px)] overflow-scroll">
-                {error && error}
-                {Boolean(result.length) && (
-                  <Table>
-                    <TableHeader className="h-12 bg-muted border-t">
-                      <TableRow className="h-full divide-x">
-                        {rows.map(row => (
-                          <TableHead key={row}>{row}</TableHead>
-                        ))}
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody className="border-b">
-                      {result.map(r => (
-                        <TableRow key={String(r)} className="divide-x">
-                          {rows.map(row => {
-                            console.log(r[row]);
-                            return (
-                              <TableCell key={row} className="text-nowrap">
-                                {String(r[row])}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                )}
-              </div>
-            </div>
-          </ResizablePanel>
+          {result.length > 0 && (
+            <ResizablePanel minSize={4}>
+              <ResultPanel error={error} result={result} isLoading={isLoading} />
+            </ResizablePanel>
+          )}
         </ResizablePanelGroup>
       </div>
     </div>
