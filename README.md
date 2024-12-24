@@ -9,8 +9,8 @@ I don't know, if it's useful, use it, if not, try it.
 ## Roadmap
 
 - [x] PostgreSQL
-- [ ] MySQL 🚧
-- [ ] User accounts
+- [x] MySQL
+- [ ] User accounts 🚧
 
 ## Tech stack
 
