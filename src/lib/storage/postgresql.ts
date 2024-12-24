@@ -1,7 +1,8 @@
 import { Client, ClientConfig } from 'pg';
 import { ConnectionError, DatabaseError, QueryError } from './storage-errors';
+import { ExecuteResult, StorageClient } from './storage-client';
 
-export class PostgreSQL {
+export class PostgreSQL implements StorageClient {
   private client: Client | null;
 
   constructor(private config: ClientConfig | string) {
@@ -9,7 +10,7 @@ export class PostgreSQL {
     this.client = null;
   }
 
-  async testConnection() {
+  async testConnection(): Promise<boolean> {
     const result = await this.createConnection();
 
     if (result instanceof DatabaseError) {
@@ -20,7 +21,7 @@ export class PostgreSQL {
     return true;
   }
 
-  async execute(query: string) {
+  async execute(query: string): Promise<ExecuteResult | QueryError> {
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {
@@ -29,11 +30,15 @@ export class PostgreSQL {
 
     try {
       const result = await client.query(query);
+
       this.client?.end();
 
       return {
         rows: result.rows,
-        rowCount: result.rowCount ?? 0
+        rowCount: result.rowCount ?? 0,
+        affectedRows: ['INSERT', 'UPDATE', 'DELETE'].includes(result.command)
+          ? result.rowCount ?? 0
+          : 0
       };
     } catch (error) {
       // @ts-expect-error error is an instance of Error

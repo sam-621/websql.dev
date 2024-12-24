@@ -57,6 +57,12 @@ export const useEditor = (editor: RefObject<EditorRef>) => {
       return;
     }
 
+    if (result.affectedRows) {
+      setResult([{ affectedRows: result.affectedRows }]);
+      setIsLoading(false);
+      return;
+    }
+
     setResult(result.rows);
     setIsLoading(false);
   };

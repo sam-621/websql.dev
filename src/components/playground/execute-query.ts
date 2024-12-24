@@ -1,14 +1,13 @@
 'use server';
 
-import { PostgreSQL } from '@/lib/storage/postgresql';
+import { Storage } from '@/lib/storage';
 import { QueryError } from '@/lib/storage/storage-errors';
 import { Connection } from '@/lib/types/connection.type';
-import { QueryResult } from '@/lib/types/query.type';
 
-export const executeQuery = async (connection: Connection, query: string): Promise<QueryResult> => {
-  const postgresql = new PostgreSQL(connection.url);
+export const executeQuery = async (connection: Connection, query: string): Promise<Result> => {
+  const storage = new Storage(connection);
 
-  const result = await postgresql.execute(query);
+  const result = await storage.execute(query);
 
   if (result instanceof QueryError) {
     return { success: false, error: result.clientMsg };
@@ -16,7 +15,18 @@ export const executeQuery = async (connection: Connection, query: string): Promi
 
   return {
     success: true,
-    rows: result.rows,
-    rowCount: result.rowCount
+    ...result
   };
 };
+
+type Result =
+  | {
+      success: false;
+      error: string;
+    }
+  | {
+      success: true;
+      rows: Record<string, unknown>[];
+      rowCount: number;
+      affectedRows?: number;
+    };
