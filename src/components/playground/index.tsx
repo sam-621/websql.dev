@@ -25,7 +25,7 @@ export const Playground = () => {
       <PlaygroundTopbar canExecute={canExecute} isLoading={isLoading} execute={execute} />
       <div className="h-[calc(100%-60px)]">
         <ResizablePanelGroup direction="vertical">
-          <ResizablePanel>
+          <ResizablePanel defaultSize={50}>
             <Editor
               onMount={editor => (monacoRef.current = editor)}
               onChange={value => setHasCode(!!value?.length)}
@@ -34,7 +34,7 @@ export const Playground = () => {
           <ResizableHandle />
           {/* If result is null, it means it hasn't been initialized */}
           {result !== null && (
-            <ResizablePanel minSize={4}>
+            <ResizablePanel defaultSize={40} minSize={4}>
               <PlaygroundResultPanel error={error} result={result} isLoading={isLoading} />
             </ResizablePanel>
           )}
