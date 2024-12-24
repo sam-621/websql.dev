@@ -49,14 +49,10 @@ export const UpsertConnectionForm: FC<Props> = ({ connection }) => {
         </RadioGroup>
 
         <FormInput control={form.control} name="name" label="Name" />
-        <div className="grid grid-cols-2 gap-4">
-          <FormInput control={form.control} name="host" label="Host" />
-          <FormInput control={form.control} name="port" label="Port" type="number" />
-          <FormInput control={form.control} name="username" label="Username" />
-          <FormInput control={form.control} name="password" label="Password" type="password" />
-        </div>
-        <FormInput control={form.control} name="database" label="Database" />
-        <Button type="submit">{connection ? 'Update' : 'Save'}</Button>
+        <FormInput control={form.control} name="url" label="Url" />
+        <Button isLoading={form.isLoading} type="submit">
+          {connection ? 'Update' : 'Save'}
+        </Button>
       </form>
     </Form>
   );

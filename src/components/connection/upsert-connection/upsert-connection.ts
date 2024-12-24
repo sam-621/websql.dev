@@ -2,10 +2,13 @@ import { StorageKeys } from '@/lib/constants/storage.constants';
 import { Connection } from '@/lib/types/connection.type';
 import { generateId } from '@/lib/utils';
 import { UpsertConnectionFormInput } from './use-upsert-connection-form';
+import { testConnection } from './test-connection';
 
-export const upsertConnection = (input: UpsertConnectionFormInput & { id?: string }) => {
-  if (input.type === 'postgresql' && !input.database) {
-    return { error: 'Database is required', field: 'database' };
+export const upsertConnection = async (input: UpsertConnectionFormInput & { id?: string }) => {
+  const isValid = await testConnection(input);
+
+  if (!isValid) {
+    return { error: 'Connection failed' };
   }
 
   if (input.id) {
