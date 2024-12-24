@@ -1,21 +1,43 @@
+import { ConnectionsList } from '@/components/connection/connections-list/connections-list';
+import { UpsertConnectionButton } from '@/components/connection/upsert-connection/upsert-connection-button';
+import { Playground } from '@/components/playground';
+import { Button } from '@/components/ui/button';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import { DatabaseIcon, PlusIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className="flex justify-center items-start h-screen flex-col w-fit mx-auto gap-5">
-      <Image src="/logo.svg" alt="Web SQL logo" width={80} height={80} priority />
-      <h1 className="text-4xl font-semibold inline">
-        Web SQL client <strong className="underline decoration-blue-600">Coming soon</strong>
-      </h1>
-      <a
-        href="https://github.com/sam-621/websql.dev"
-        target="_blank"
-        className="flex items-center gap-2 bg-[#FAFAFA] text-[#18181B] p-2 rounded-full w-24 hover:w-32 transition-all overflow-hidden"
-      >
-        <Image src="/github.svg" alt="Github logo" width={20} height={20} priority />
-        Github
-        <Image src="/goto.svg" alt="External link" width={20} height={20} className="ml-2" />
-      </a>
+    <div className="grid grid-cols-[auto,1fr]">
+      <aside className="bg-muted h-screen w-fit border-r">
+        <div className="flex flex-col items-center gap-6 p-3">
+          <Image src="/logo.svg" alt="Logo" width={39} height={39} />
+          <div className="p-3 bg-muted-foreground/10 rounded-full">
+            <DatabaseIcon size={24} className="text-muted-foreground" />
+          </div>
+        </div>
+      </aside>
+      <main className="max-w-[calc(100vw-73px)]">
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
+            <div className="flex items-center justify-between p-3">
+              <h3 className="jetbrains_font">Connections</h3>
+              <UpsertConnectionButton
+                trigger={
+                  <Button size="icon" variant="outline">
+                    <PlusIcon size={16} />
+                  </Button>
+                }
+              />
+            </div>
+            <ConnectionsList />
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={75} className="h-full">
+            <Playground />
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </main>
     </div>
   );
 }
