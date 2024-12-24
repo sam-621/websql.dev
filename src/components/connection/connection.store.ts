@@ -6,6 +6,7 @@ import { persist } from 'zustand/middleware';
 type Schema = {
   connections: Connection[];
   selectedConnection: Connection | null;
+  selectConnection: (connection: Connection) => void;
   create: (connection: ConnectionConfig) => void;
   update: (connection: Connection) => void;
   remove: (id: string) => void;
@@ -16,6 +17,9 @@ export const useConnectionStore = create<Schema>()(
     set => ({
       connections: [],
       selectedConnection: null,
+      selectConnection(connection) {
+        set({ selectedConnection: connection });
+      },
       create(connection) {
         set(state => ({
           connections: [...state.connections, { ...connection, id: generateId() }]

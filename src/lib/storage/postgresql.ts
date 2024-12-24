@@ -1,5 +1,5 @@
 import { Client, ClientConfig } from 'pg';
-import { ConnectionError, DatabaseError } from '../storage-errors';
+import { ConnectionError, DatabaseError, QueryError } from './storage-errors';
 
 export class PostgreSQL {
   private client: Client | null;
@@ -18,6 +18,26 @@ export class PostgreSQL {
 
     this.client?.end();
     return true;
+  }
+
+  async execute(query: string) {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return client;
+    }
+
+    try {
+      const result = await client.query(query);
+      console.log({ result });
+
+      return {
+        rows: result.rows,
+        rowCount: result.rowCount
+      };
+    } catch (error) {
+      return new QueryError(error);
+    }
   }
 
   private async createConnection() {

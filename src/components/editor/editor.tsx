@@ -1,27 +1,55 @@
 'use client';
 import MonacoEditor from '@monaco-editor/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Label } from '../ui/label';
 import { Select } from '../ui/select';
-import { useLocalStorage } from '@/lib/hooks/use-local-storage';
-import { StorageKeys } from '@/lib/constants/storage.constants';
-import { Connection } from '@/lib/types/connection.type';
+import { useConnectionStore } from '../connection/connection.store';
+import { executeQuery } from './execute-query';
+import { Button } from '../ui/button';
 
 export const Editor = () => {
   const [code, setCode] = useState<string>(`SELECT * FROM users WHERE name = 'John Doe';`);
-  const { value: connections } = useLocalStorage<Connection[]>(StorageKeys.Connections, []);
+  const connections = useConnectionStore(state => state.connections);
+  const selectedConnection = useConnectionStore(state => state.selectedConnection);
+  const selectConnectionInStore = useConnectionStore(state => state.selectConnection);
+
+  useEffect(() => {
+    const connection = connections[0];
+
+    if (connection) {
+      selectConnectionInStore(connection);
+    }
+  }, []);
+
+  const execute = async () => {
+    if (!selectedConnection) {
+      return;
+    }
+
+    const result = await executeQuery(selectedConnection, code);
+
+    console.log(result);
+  };
 
   return (
     <div className="flex flex-col h-full divide-y">
-      <div className="h-[60px] flex items-center gap-2 p-3 w-full bg-muted">
-        <Label htmlFor="connection">Connection:</Label>
-        <Select id="connection">
-          {connections.map(c => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </Select>
+      <div className="h-[60px] p-3 w-full bg-muted flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Label htmlFor="connection">Connection:</Label>
+          <Select
+            id="connection"
+            onChange={e => selectConnectionInStore(connections.find(c => c.id === e.target.value)!)}
+          >
+            {connections.map(c => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div>
+          <Button onClick={execute}>Execute</Button>
+        </div>
       </div>
       <div className="h-[calc(100%-60px)]">
         <MonacoEditor

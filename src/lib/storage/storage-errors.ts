@@ -11,3 +11,9 @@ export class ConnectionError extends DatabaseError {
     super('Failed to connect to database', raw);
   }
 }
+
+export class QueryError extends DatabaseError {
+  constructor(raw: unknown) {
+    super('Failed ot execute query', raw);
+  }
+}
