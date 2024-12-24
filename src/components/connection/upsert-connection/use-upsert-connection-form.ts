@@ -2,13 +2,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormMessages } from '@/lib/form/form-messages';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { upsertConnection } from './upsert-connection';
 import { notification } from '@/lib/notification/notifications';
 import { Connection } from '@/lib/types/connection.type';
 import { useTransition } from 'react';
+import { testConnection } from './test-connection';
+import { useConnectionStore } from '../connection.store';
+import { useDialogContext } from '@/components/ui/dialog';
 
 export const useUpsertConnectionForm = (connection?: Connection) => {
   const [isLoading, startTransition] = useTransition();
+
+  const { setIsOpen } = useDialogContext();
+  const createConnectionInStore = useConnectionStore(state => state.create);
+  const updateConnectionInStore = useConnectionStore(state => state.update);
 
   const form = useForm<UpsertConnectionFormInput>({
     defaultValues: {
@@ -21,13 +27,20 @@ export const useUpsertConnectionForm = (connection?: Connection) => {
 
   const onSubmit = (input: UpsertConnectionFormInput) => {
     startTransition(async () => {
-      const result = await upsertConnection(connection ? { ...input, id: connection.id } : input);
+      const isValid = await testConnection(input);
 
-      if (result?.error) {
-        notification.error(result.error);
+      if (!isValid) {
+        notification.error('Connection failed');
         return;
       }
 
+      if (connection) {
+        updateConnectionInStore({ ...input, id: connection.id });
+      } else {
+        createConnectionInStore({ ...input });
+      }
+
+      setIsOpen(false);
       notification.success(`Connection ${connection ? 'updated' : 'created'}`);
     });
   };

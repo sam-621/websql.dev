@@ -4,14 +4,12 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { PencilIcon } from 'lucide-react';
-import { useLocalStorage } from '@/lib/hooks/use-local-storage';
-import { StorageKeys } from '@/lib/constants/storage.constants';
-import { Connection } from '@/lib/types/connection.type';
 import { UpsertConnectionButton } from '../upsert-connection/upsert-connection-button';
 import { RemoveConnectionButton } from '../remove-connection/remove-connection-button';
+import { useConnectionStore } from '../connection.store';
 
 export const ConnectionsList = () => {
-  const { value: connections } = useLocalStorage<Connection[]>(StorageKeys.Connections, []);
+  const connections = useConnectionStore(state => state.connections);
 
   return (
     <div className="flex flex-col gap-3 p-3">
@@ -26,14 +24,10 @@ export const ConnectionsList = () => {
             />
             <p>{connection.name}</p>
           </div>
-          <div>
+          <div className="opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2">
             <UpsertConnectionButton
               trigger={
-                <Button
-                  className="opacity-0 group-hover:opacity-100 transition-all"
-                  size="icon"
-                  variant="link"
-                >
+                <Button size="icon" variant="outline">
                   <PencilIcon size={16} />
                 </Button>
               }

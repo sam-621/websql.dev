@@ -6,7 +6,32 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-const Dialog = DialogPrimitive.Root;
+const DialogContext = React.createContext({
+  isOpen: false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setIsOpen: (_: boolean) => {}
+});
+
+export const useDialogContext = () => React.useContext(DialogContext);
+
+const Dialog: React.FC<
+  React.PropsWithChildren & { isOpen?: boolean; setIsOpen?: (_: boolean) => void }
+> = ({ children, isOpen: isOpenProp, setIsOpen: setIsOpenProp }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <DialogContext.Provider
+      value={{ isOpen: isOpenProp ?? isOpen, setIsOpen: setIsOpenProp ?? setIsOpen }}
+    >
+      <DialogPrimitive.Root
+        open={isOpenProp ?? isOpen}
+        onOpenChange={open => (setIsOpenProp ? setIsOpenProp(open) : setIsOpen(open))}
+      >
+        {children}
+      </DialogPrimitive.Root>
+    </DialogContext.Provider>
+  );
+};
 
 const DialogTrigger = DialogPrimitive.Trigger;
 

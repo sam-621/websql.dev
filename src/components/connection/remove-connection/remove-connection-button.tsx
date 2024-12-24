@@ -9,28 +9,25 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { FC, useState } from 'react';
-import { removeConnection } from './remove-connection';
 import { Trash2Icon } from 'lucide-react';
 import { notification } from '@/lib/notification/notifications';
 import { Connection } from '@/lib/types/connection.type';
+import { useConnectionStore } from '../connection.store';
 
 export const RemoveConnectionButton: FC<Props> = ({ connection }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const removeConnectionFromStore = useConnectionStore(state => state.remove);
 
   const handleRemove = () => {
-    removeConnection(connection.id);
+    removeConnectionFromStore(connection.id);
     notification.success(`Connection ${connection.name} removed`);
     setIsOpen(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog isOpen={isOpen} setIsOpen={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          className="opacity-0 group-hover:opacity-100 transition-all"
-          size="icon"
-          variant="link"
-        >
+        <Button size="icon" variant="outline">
           <Trash2Icon size={16} />
         </Button>
       </DialogTrigger>
@@ -42,7 +39,9 @@ export const RemoveConnectionButton: FC<Props> = ({ connection }) => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="secondary">Cancel</Button>
+          <Button onClick={() => setIsOpen(false)} variant="secondary">
+            Cancel
+          </Button>
           <Button onClick={handleRemove}>Remove</Button>
         </DialogFooter>
       </DialogContent>
