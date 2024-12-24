@@ -15,8 +15,12 @@ const jetBrainsMonoFont = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://websql.dev'),
   title: 'WebSQL',
-  description: 'A web based SQL client'
+  description: 'A web based SQL client',
+  openGraph: {
+    images: ['/websql.png']
+  }
 };
 
 export default function RootLayout({

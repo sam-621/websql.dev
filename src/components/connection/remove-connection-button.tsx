@@ -12,7 +12,7 @@ import { FC, useState } from 'react';
 import { Trash2Icon } from 'lucide-react';
 import { notification } from '@/lib/notification/notifications';
 import { Connection } from '@/lib/types/connection.type';
-import { useConnectionStore } from '../connection.store';
+import { useConnectionStore } from './connection.store';
 
 export const RemoveConnectionButton: FC<Props> = ({ connection }) => {
   const [isOpen, setIsOpen] = useState(false);

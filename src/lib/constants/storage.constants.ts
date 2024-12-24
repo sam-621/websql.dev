@@ -1,4 +1,3 @@
 export const StorageKeys = {
-  Connections: 'connections',
-  SelectedConnection: 'selected-connection'
+  Code: 'code-value'
 };
