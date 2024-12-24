@@ -30,11 +30,15 @@ export class PostgreSQL implements StorageClient {
 
     try {
       const result = await client.query(query);
+
       this.client?.end();
 
       return {
         rows: result.rows,
-        rowCount: result.rowCount ?? 0
+        rowCount: result.rowCount ?? 0,
+        affectedRows: ['INSERT', 'UPDATE', 'DELETE'].includes(result.command)
+          ? result.rowCount ?? 0
+          : 0
       };
     } catch (error) {
       // @ts-expect-error error is an instance of Error

@@ -50,9 +50,6 @@ export const useEditor = (editor: RefObject<EditorRef>) => {
 
     setIsLoading(true);
     const result = await executeQuery(selectedConnection, code);
-    console.log({
-      result2: result
-    });
 
     if (!result.success) {
       setError(result.error);

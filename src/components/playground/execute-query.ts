@@ -8,9 +8,6 @@ export const executeQuery = async (connection: Connection, query: string): Promi
   const storage = new Storage(connection);
 
   const result = await storage.execute(query);
-  console.log({
-    result1: result
-  });
 
   if (result instanceof QueryError) {
     return { success: false, error: result.clientMsg };
