@@ -1,6 +1,6 @@
 'use client';
-import MonacoEditor from '@monaco-editor/react';
-import { useEffect, useState } from 'react';
+import MonacoEditor, { Monaco } from '@monaco-editor/react';
+import { useEffect, useRef, useState } from 'react';
 import { Label } from '../ui/label';
 import { Select } from '../ui/select';
 import { useConnectionStore } from '../connection/connection.store';
@@ -10,11 +10,14 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../ui/resi
 import { ResultPanel } from './result-panel';
 
 export const Editor = () => {
+  const monacoRef = useRef<Monaco>(null);
+  const [canExecute, setCanExecute] = useState(false);
+
   const [firstQuery, setFirstQuery] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<Record<string, unknown>[]>([]);
   const [error, setError] = useState('');
-  const [code, setCode] = useState<string>(`SELECT * FROM product`);
+  // const [code, setCode] = useState<string>(`SELECT * FROM product`);
   const connections = useConnectionStore(state => state.connections);
   const selectedConnection = useConnectionStore(state => state.selectedConnection);
   const selectConnectionInStore = useConnectionStore(state => state.selectConnection);
@@ -42,6 +45,17 @@ export const Editor = () => {
   );
 
   const execute = async () => {
+    const selectedCode = monacoRef.current
+      .getModel()
+      .getValueInRange(monacoRef.current.getSelection());
+    const allCode = monacoRef.current.getModel().getValue();
+
+    const code = selectedCode || allCode;
+
+    if (!code?.length) {
+      return;
+    }
+
     if (!selectedConnection) {
       return;
     }
@@ -87,7 +101,7 @@ export const Editor = () => {
           </Select>
         </div>
         <div>
-          <Button isLoading={isLoading} onClick={execute}>
+          <Button disabled={!canExecute || isLoading} isLoading={isLoading} onClick={execute}>
             Execute
           </Button>
         </div>
@@ -96,6 +110,7 @@ export const Editor = () => {
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel>
             <MonacoEditor
+              onMount={editor => (monacoRef.current = editor)}
               className="bg-background"
               options={{
                 fontSize: 14,
@@ -110,8 +125,7 @@ export const Editor = () => {
               }}
               language={'sql'}
               theme="vs-dark"
-              value={code}
-              onChange={value => setCode(value!)}
+              onChange={value => setCanExecute(!!value?.length)}
             />
           </ResizablePanel>
           <ResizableHandle />

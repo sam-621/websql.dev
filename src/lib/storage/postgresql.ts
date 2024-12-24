@@ -36,7 +36,7 @@ export class PostgreSQL {
         rowCount: result.rowCount ?? 0
       };
     } catch (error) {
-      // @ts-expect-error some error
+      // @ts-expect-error error is an instance of Error
       return new QueryError(error.message, error);
     }
   }
