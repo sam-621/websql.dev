@@ -1,4 +1,4 @@
-import { ConnectionsList } from '@/components/connection/connections-list/connections-list';
+import { ConnectionsList } from '@/components/connection/connections-list';
 import { UpsertConnectionButton } from '@/components/connection/upsert-connection/upsert-connection-button';
 import { Playground } from '@/components/playground';
 import { Button } from '@/components/ui/button';

@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { PencilIcon } from 'lucide-react';
-import { UpsertConnectionButton } from '../upsert-connection/upsert-connection-button';
-import { RemoveConnectionButton } from '../remove-connection/remove-connection-button';
-import { useConnectionStore } from '../connection.store';
+import { UpsertConnectionButton } from './upsert-connection/upsert-connection-button';
+import { RemoveConnectionButton } from './remove-connection-button';
+import { useConnectionStore } from './connection.store';
 
 export const ConnectionsList = () => {
   const connections = useConnectionStore(state => state.connections);
