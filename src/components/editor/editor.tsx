@@ -10,6 +10,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../ui/resi
 import { ResultPanel } from './result-panel';
 
 export const Editor = () => {
+  const [firstQuery, setFirstQuery] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<Record<string, unknown>[]>([]);
   const [error, setError] = useState('');
@@ -38,11 +39,13 @@ export const Editor = () => {
     const result = await executeQuery(selectedConnection, code);
 
     if (!result.success) {
+      setFirstQuery(true);
       setError(result.error);
       setIsLoading(false);
       return;
     }
 
+    setFirstQuery(true);
     setResult(result.rows);
     setIsLoading(false);
   };
@@ -64,7 +67,9 @@ export const Editor = () => {
           </Select>
         </div>
         <div>
-          <Button onClick={execute}>Execute</Button>
+          <Button isLoading={isLoading} onClick={execute}>
+            Execute
+          </Button>
         </div>
       </div>
       <div className="h-[calc(100%-60px)]">
@@ -90,7 +95,7 @@ export const Editor = () => {
             />
           </ResizablePanel>
           <ResizableHandle />
-          {result.length > 0 && (
+          {firstQuery && (
             <ResizablePanel minSize={4}>
               <ResultPanel error={error} result={result} isLoading={isLoading} />
             </ResizablePanel>
