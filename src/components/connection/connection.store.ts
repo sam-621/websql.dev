@@ -1,3 +1,4 @@
+import { StorageKeys } from '@/lib/constants/storage.constants';
 import { Connection, ConnectionConfig } from '@/lib/types/connection.type';
 import { generateId } from '@/lib/utils';
 import { create } from 'zustand';
@@ -41,6 +42,21 @@ export const useConnectionStore = create<Schema>()(
         }));
       }
     }),
-    { name: 'connections-storage' }
+    { name: StorageKeys.Connections }
   )
 );
+
+export const EXAMPLE_CONNECTIONS: Connection[] = [
+  {
+    id: generateId(),
+    name: 'PostgreSQL example',
+    type: 'postgresql',
+    url: 'postgresql://postgres:eQUYfjaJDzBLmyUlknlpLxdGdgCxKRyp@autorack.proxy.rlwy.net:39375/railway'
+  },
+  {
+    id: generateId(),
+    name: 'MySQL example',
+    type: 'mysql',
+    url: 'mysql://root:WnpgiKEoTfqLNGUxBCxnjVtyKPzIpxFh@junction.proxy.rlwy.net:36684/railway'
+  }
+];
