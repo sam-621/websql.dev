@@ -17,7 +17,7 @@ export default function Home() {
           </div>
         </div>
       </aside>
-      <main>
+      <main className="max-w-[calc(100vw-73px)]">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
             <div className="flex items-center justify-between p-3">

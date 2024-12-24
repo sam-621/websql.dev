@@ -24,19 +24,20 @@ export class PostgreSQL {
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {
-      return client;
+      return new QueryError('Connection error', client);
     }
 
     try {
       const result = await client.query(query);
-      console.log({ result });
+      this.client?.end();
 
       return {
         rows: result.rows,
-        rowCount: result.rowCount
+        rowCount: result.rowCount ?? 0
       };
     } catch (error) {
-      return new QueryError(error);
+      // @ts-expect-error some error
+      return new QueryError(error.message, error);
     }
   }
 

@@ -13,7 +13,10 @@ export class ConnectionError extends DatabaseError {
 }
 
 export class QueryError extends DatabaseError {
-  constructor(raw: unknown) {
-    super('Failed ot execute query', raw);
+  clientMsg: string;
+
+  constructor(clientMsg: string, raw: unknown) {
+    super('Failed to execute query', raw);
+    this.clientMsg = clientMsg;
   }
 }
