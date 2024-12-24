@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Select } from '../ui/select';
 
-export const EditorTopbar: FC<Props> = ({ canExecute, isLoading, execute }) => {
+export const PlaygroundTopbar: FC<Props> = ({ canExecute, isLoading, execute }) => {
   const { connections, selectedConnection } = useConnectionStore(state => state);
   const selectConnectionInStore = useConnectionStore(state => state.selectConnection);
 

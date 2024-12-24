@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 
-export const ResultPanel: FC<Props> = ({ error, result, isLoading }) => {
+export const PlaygroundResultPanel: FC<Props> = ({ error, result, isLoading }) => {
   const rows = useMemo(
     () => (result.length ? Object.keys(result[0]).map(key => key) : []),
     [result]

@@ -1,9 +1,9 @@
-import { Monaco } from '@monaco-editor/react';
 import { RefObject, useEffect, useState } from 'react';
 import { useConnectionStore } from '../connection/connection.store';
 import { executeQuery } from './execute-query';
+import { EditorRef } from '@/lib/editor';
 
-export const useEditor = (editor: RefObject<Monaco>) => {
+export const useEditor = (editor: RefObject<EditorRef>) => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<Record<string, unknown>[] | null>(null);
   const [error, setError] = useState('');

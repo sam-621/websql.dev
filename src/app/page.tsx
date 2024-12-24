@@ -1,6 +1,6 @@
 import { ConnectionsList } from '@/components/connection/connections-list/connections-list';
 import { UpsertConnectionButton } from '@/components/connection/upsert-connection/upsert-connection-button';
-import { Editor } from '@/components/editor/editor';
+import { Playground } from '@/components/playground';
 import { Button } from '@/components/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import { DatabaseIcon, PlusIcon } from 'lucide-react';
@@ -34,7 +34,7 @@ export default function Home() {
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={75} className="h-full">
-            <Editor />
+            <Playground />
           </ResizablePanel>
         </ResizablePanelGroup>
       </main>
