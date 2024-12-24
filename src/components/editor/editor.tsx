@@ -19,13 +19,27 @@ export const Editor = () => {
   const selectedConnection = useConnectionStore(state => state.selectedConnection);
   const selectConnectionInStore = useConnectionStore(state => state.selectConnection);
 
-  useEffect(() => {
+  useEffect(function setInitialConnection() {
     const connection = connections[0];
 
     if (connection) {
       selectConnectionInStore(connection);
     }
   }, []);
+
+  useEffect(
+    function CtrlEnter() {
+      if (!selectedConnection) {
+        return;
+      }
+
+      document.addEventListener('keydown', executeOnCtrlEnter);
+      return () => {
+        document.removeEventListener('keydown', executeOnCtrlEnter);
+      };
+    },
+    [selectedConnection]
+  );
 
   const execute = async () => {
     if (!selectedConnection) {
@@ -48,6 +62,12 @@ export const Editor = () => {
     setFirstQuery(true);
     setResult(result.rows);
     setIsLoading(false);
+  };
+
+  const executeOnCtrlEnter = async (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      await execute();
+    }
   };
 
   return (

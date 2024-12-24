@@ -34,9 +34,8 @@ export const ResultPanel: FC<Props> = ({ error, result, isLoading }) => {
             </TableHeader>
             <TableBody className="border-b">
               {result.map(r => (
-                <TableRow key={String(r)} className="divide-x">
+                <TableRow key={Object.values(r).join('')} className="divide-x">
                   {rows.map(row => {
-                    console.log(r[row]);
                     return (
                       <TableCell key={row} className="text-nowrap">
                         {String(r[row])}
