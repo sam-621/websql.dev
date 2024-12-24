@@ -1,13 +1,13 @@
 'use server';
 
-import { PostgreSQL } from '@/lib/storage/postgresql';
+import { Storage } from '@/lib/storage';
 import { QueryError } from '@/lib/storage/storage-errors';
 import { Connection } from '@/lib/types/connection.type';
 
 export const executeQuery = async (connection: Connection, query: string): Promise<Result> => {
-  const postgresql = new PostgreSQL(connection.url);
+  const storage = new Storage(connection);
 
-  const result = await postgresql.execute(query);
+  const result = await storage.execute(query);
 
   if (result instanceof QueryError) {
     return { success: false, error: result.clientMsg };

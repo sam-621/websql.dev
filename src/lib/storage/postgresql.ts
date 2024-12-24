@@ -1,8 +1,8 @@
 import { Client, ClientConfig } from 'pg';
 import { ConnectionError, DatabaseError, QueryError } from './storage-errors';
-import { ExecuteResult, Storage } from './storage';
+import { ExecuteResult, StorageClient } from './storage-client';
 
-export class PostgreSQL implements Storage {
+export class PostgreSQL implements StorageClient {
   private client: Client | null;
 
   constructor(private config: ClientConfig | string) {
