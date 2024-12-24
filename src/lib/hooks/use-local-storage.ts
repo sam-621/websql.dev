@@ -5,10 +5,10 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
   const [state, setState] = useState(initialValue);
 
   useEffect(() => {
-    const storedValue = getLocalStorageItem(key);
+    const storedValue = getLocalStorageItem<T>(key);
 
     if (storedValue) {
-      setState(JSON.parse(storedValue));
+      setState(storedValue);
     }
   }, [key]);
 

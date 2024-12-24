@@ -1,5 +1,5 @@
-export const getLocalStorageItem = (key: string) => {
-  return window.localStorage.getItem(key);
+export const getLocalStorageItem = <T>(key: string): T => {
+  return JSON.parse(window.localStorage.getItem(key) ?? '') as T;
 };
 
 export const setLocalStorageItem = (key: string, value: unknown) => {

@@ -3,11 +3,12 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { PencilIcon, Trash2Icon } from 'lucide-react';
+import { PencilIcon } from 'lucide-react';
 import { useLocalStorage } from '@/lib/hooks/use-local-storage';
 import { StorageKeys } from '@/lib/constants/storage.constants';
 import { Connection } from '@/lib/types/connection.type';
 import { UpsertConnectionButton } from '../upsert-connection/upsert-connection-button';
+import { RemoveConnectionButton } from '../remove-connection/remove-connection-button';
 
 export const ConnectionsList = () => {
   const { value: connections } = useLocalStorage<Connection[]>(StorageKeys.Connections, []);
@@ -39,13 +40,7 @@ export const ConnectionsList = () => {
               connection={connection}
             />
 
-            <Button
-              className="opacity-0 group-hover:opacity-100 transition-all"
-              size="icon"
-              variant="link"
-            >
-              <Trash2Icon size={16} />
-            </Button>
+            <RemoveConnectionButton connection={connection} />
           </div>
         </div>
       ))}
