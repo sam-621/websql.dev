@@ -3,9 +3,8 @@
 import { PostgreSQL } from '@/lib/storage/postgresql';
 import { QueryError } from '@/lib/storage/storage-errors';
 import { Connection } from '@/lib/types/connection.type';
-import { QueryResult } from '@/lib/types/query.type';
 
-export const executeQuery = async (connection: Connection, query: string): Promise<QueryResult> => {
+export const executeQuery = async (connection: Connection, query: string): Promise<Result> => {
   const postgresql = new PostgreSQL(connection.url);
 
   const result = await postgresql.execute(query);
@@ -20,3 +19,14 @@ export const executeQuery = async (connection: Connection, query: string): Promi
     rowCount: result.rowCount
   };
 };
+
+type Result =
+  | {
+      success: false;
+      error: string;
+    }
+  | {
+      success: true;
+      rows: Record<string, unknown>[];
+      rowCount: number;
+    };
