@@ -19,7 +19,7 @@ export const UpsertConnectionForm: FC<Props> = ({ connection }) => {
           defaultValue={form.getValues('type')}
           onValueChange={v => form.setValue('type', v as UpsertConnectionFormInput['type'])}
         >
-          {/* Radio card #1 */}
+          {/* Postgresql */}
           <div className="relative flex w-full items-center justify-between gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
             <RadioGroupItem
               value="postgresql"
@@ -33,9 +33,10 @@ export const UpsertConnectionForm: FC<Props> = ({ connection }) => {
             </div>
           </div>
 
-          {/* Radio card #1 */}
+          {/* mysql */}
           <div className="relative flex w-full items-center justify-between gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
             <RadioGroupItem
+              disabled
               value="mysql"
               id="mysql"
               aria-describedby="mysql-description"
@@ -43,7 +44,10 @@ export const UpsertConnectionForm: FC<Props> = ({ connection }) => {
             />
             <div className="flex items-center gap-4">
               <Image src="/mysql.svg" alt="MySQL icon" width={48} height={48} />
-              <Label>MySQL</Label>
+              <div>
+                <Label className="text-muted-foreground">MySQL</Label>
+                <p className="text-muted-foreground text-xs">Coming soon</p>
+              </div>
             </div>
           </div>
         </RadioGroup>
