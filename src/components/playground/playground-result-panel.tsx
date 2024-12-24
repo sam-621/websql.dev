@@ -47,6 +47,11 @@ export const PlaygroundResultPanel: FC<Props> = ({ error, result, isLoading }) =
             </TableBody>
           </Table>
         )}
+        {result.length === 0 && !isLoading && !error && (
+          <div className="flex justify-center items-center h-full">
+            <p className="jetbrains_font">No results</p>
+          </div>
+        )}
       </div>
     </div>
   );

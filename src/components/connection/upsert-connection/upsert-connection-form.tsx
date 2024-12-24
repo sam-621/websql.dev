@@ -36,7 +36,6 @@ export const UpsertConnectionForm: FC<Props> = ({ connection }) => {
           {/* mysql */}
           <div className="relative flex w-full items-center justify-between gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
             <RadioGroupItem
-              disabled
               value="mysql"
               id="mysql"
               aria-describedby="mysql-description"
@@ -44,10 +43,7 @@ export const UpsertConnectionForm: FC<Props> = ({ connection }) => {
             />
             <div className="flex items-center gap-4">
               <Image src="/mysql.svg" alt="MySQL icon" width={48} height={48} />
-              <div>
-                <Label className="text-muted-foreground">MySQL</Label>
-                <p className="text-muted-foreground text-xs">Coming soon</p>
-              </div>
+              <Label className="text-muted-foreground">MySQL</Label>
             </div>
           </div>
         </RadioGroup>

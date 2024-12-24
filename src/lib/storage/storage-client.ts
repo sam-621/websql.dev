@@ -10,6 +10,7 @@ export interface StorageClient {
 export type ExecuteResult = {
   rows: Record<string, unknown>[];
   rowCount: number;
+  affectedRows?: number;
 };
 
 export const getStorage = (type: ConnectionConfig['type']) => {

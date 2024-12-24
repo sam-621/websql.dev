@@ -8,6 +8,9 @@ export const executeQuery = async (connection: Connection, query: string): Promi
   const storage = new Storage(connection);
 
   const result = await storage.execute(query);
+  console.log({
+    result1: result
+  });
 
   if (result instanceof QueryError) {
     return { success: false, error: result.clientMsg };
@@ -15,8 +18,7 @@ export const executeQuery = async (connection: Connection, query: string): Promi
 
   return {
     success: true,
-    rows: result.rows,
-    rowCount: result.rowCount
+    ...result
   };
 };
 
@@ -29,4 +31,5 @@ type Result =
       success: true;
       rows: Record<string, unknown>[];
       rowCount: number;
+      affectedRows?: number;
     };
