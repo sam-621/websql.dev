@@ -21,13 +21,18 @@ export const useConnectionStore = create<Schema>()(
         set({ selectedConnection: connection });
       },
       create(connection) {
+        const newConnection = { ...connection, id: generateId() };
+
         set(state => ({
-          connections: [...state.connections, { ...connection, id: generateId() }]
+          connections: [...state.connections, newConnection],
+          selectedConnection:
+            state.connections.length === 0 ? newConnection : state.selectedConnection
         }));
       },
       remove(id) {
         set(state => ({
-          connections: state.connections.filter(connection => connection.id !== id)
+          connections: state.connections.filter(connection => connection.id !== id),
+          selectedConnection: state.selectedConnection?.id === id ? null : state.selectedConnection
         }));
       },
       update(connection) {
