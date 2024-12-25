@@ -51,6 +51,34 @@ export class MySQL implements StorageClient {
     }
   }
 
+  async getTables(): Promise<string[]> {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return [];
+    }
+
+    try {
+      const [rows] = await client.execute(`SHOW TABLES`);
+
+      this.client?.destroy();
+
+      if (Array.isArray(rows)) {
+        return rows.map(
+          row =>
+            (row as Record<string, unknown>)[
+              `Tables_in_${this.connectionString.split('/').pop()}`
+            ] as string
+        );
+      } else {
+        return [];
+      }
+    } catch (error) {
+      // @ts-expect-error error is an instance of Error
+      return new QueryError(error.message, error);
+    }
+  }
+
   private async createConnection() {
     try {
       if (this.client) {

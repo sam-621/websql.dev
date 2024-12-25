@@ -3,6 +3,7 @@ export type Connection = {
   type: 'postgresql' | 'mysql';
   name: string;
   url: string;
+  tables: string[];
 };
 
-export type ConnectionConfig = Omit<Connection, 'id'>;
+export type ConnectionConfig = Omit<Connection, 'id' | 'tables'>;

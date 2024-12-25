@@ -46,6 +46,28 @@ export class PostgreSQL implements StorageClient {
     }
   }
 
+  async getTables(): Promise<string[]> {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return [];
+    }
+
+    try {
+      const result = await client.query(
+        'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema()'
+      );
+
+      this.client?.end();
+
+      return result.rows.map((row: { table_name: string }) => row.table_name);
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      return [];
+    }
+  }
+
   private async createConnection() {
     try {
       if (this.client) {

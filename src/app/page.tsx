@@ -24,7 +24,7 @@ export default function Home() {
       </aside>
       <main className="w-full md:max-w-[calc(100vw-73px)]">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
+          <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={10}>
             <div className="flex items-center justify-between gap-2 p-3">
               <h3 className="jetbrains_font">Connections</h3>
               <UpsertConnectionButton

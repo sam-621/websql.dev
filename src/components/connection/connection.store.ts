@@ -8,7 +8,7 @@ type Schema = {
   connections: Connection[];
   selectedConnection: Connection | null;
   selectConnection: (connection: Connection) => void;
-  create: (connection: ConnectionConfig) => void;
+  create: (connection: ConnectionConfig & { tables: string[] }) => void;
   update: (connection: Connection) => void;
   remove: (id: string) => void;
 };
@@ -51,12 +51,14 @@ export const EXAMPLE_CONNECTIONS: Connection[] = [
     id: generateId(),
     name: 'PostgreSQL example',
     type: 'postgresql',
-    url: 'postgresql://postgres:eQUYfjaJDzBLmyUlknlpLxdGdgCxKRyp@autorack.proxy.rlwy.net:39375/railway'
+    url: 'postgresql://postgres:eQUYfjaJDzBLmyUlknlpLxdGdgCxKRyp@autorack.proxy.rlwy.net:39375/railway',
+    tables: []
   },
   {
     id: generateId(),
     name: 'MySQL example',
     type: 'mysql',
-    url: 'mysql://root:WnpgiKEoTfqLNGUxBCxnjVtyKPzIpxFh@junction.proxy.rlwy.net:36684/railway'
+    url: 'mysql://root:WnpgiKEoTfqLNGUxBCxnjVtyKPzIpxFh@junction.proxy.rlwy.net:36684/railway',
+    tables: []
   }
 ];

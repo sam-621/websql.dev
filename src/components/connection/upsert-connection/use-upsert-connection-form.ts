@@ -8,6 +8,7 @@ import { useTransition } from 'react';
 import { testConnection } from './test-connection';
 import { useConnectionStore } from '../connection.store';
 import { useDialogContext } from '@/components/ui/dialog';
+import { retrieveConnectionData } from './retrieve-connection-data';
 
 export const useUpsertConnectionForm = (connection?: Connection) => {
   const [isLoading, startTransition] = useTransition();
@@ -34,10 +35,12 @@ export const useUpsertConnectionForm = (connection?: Connection) => {
         return;
       }
 
+      const { tables } = await retrieveConnectionData(input);
+
       if (connection) {
-        updateConnectionInStore({ ...input, id: connection.id });
+        updateConnectionInStore({ ...input, tables, id: connection.id });
       } else {
-        createConnectionInStore({ ...input });
+        createConnectionInStore({ ...input, tables });
       }
 
       setIsOpen(false);
