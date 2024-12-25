@@ -36,7 +36,6 @@ export const ConnectionsList = () => {
               width={32}
               height={32}
             />
-            {/* className="text-sm text-nowrap text-ellipsis whitespace-nowrap overflow-hidden" */}
             <p>{connection.name}</p>
           </div>
           <div className="opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2">
