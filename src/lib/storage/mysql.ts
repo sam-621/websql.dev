@@ -11,6 +11,10 @@ export class MySQL implements StorageClient {
   }
 
   async testConnection(): Promise<boolean> {
+    if (!this.connectionString.startsWith('mysql://')) {
+      return false;
+    }
+
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {
