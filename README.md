@@ -8,7 +8,7 @@ A web based SQL client, inspired by Azure Data Studio.
 - Run selection
 - Syntax highlighting
 
-## Why?
+### Why?
 
 I don't know, if it's useful, use it, if not, try it.
 
