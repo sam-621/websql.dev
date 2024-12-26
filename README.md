@@ -2,6 +2,12 @@
 
 A web based SQL client, inspired by Azure Data Studio.
 
+### Features
+
+- Multi provider
+- Run selection
+- Syntax highlighting
+
 ## Why?
 
 I don't know, if it's useful, use it, if not, try it.
@@ -11,10 +17,6 @@ I don't know, if it's useful, use it, if not, try it.
 - [x] PostgreSQL
 - [x] MySQL
 - [ ] User accounts 🚧
-
-## Tech stack
-
-- [Next.js](https://nextjs.org/) as the main framework
 
 ## Theme
 
