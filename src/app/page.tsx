@@ -3,7 +3,7 @@ import { UpsertConnectionButton } from '@/components/connection/upsert-connectio
 import { Playground } from '@/components/playground';
 import { Button } from '@/components/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { DatabaseIcon, PlusIcon } from 'lucide-react';
+import { DatabaseIcon, PlusIcon, RefreshCcwIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
@@ -27,13 +27,18 @@ export default function Home() {
           <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={10}>
             <div className="flex items-center justify-between gap-2 p-3">
               <h3 className="jetbrains_font">Connections</h3>
-              <UpsertConnectionButton
-                trigger={
-                  <Button size="icon" variant="outline">
-                    <PlusIcon size={16} />
-                  </Button>
-                }
-              />
+              <div className="flex items-center gap-2">
+                <Button size="icon" variant="outline">
+                  <RefreshCcwIcon size={16} />
+                </Button>
+                <UpsertConnectionButton
+                  trigger={
+                    <Button size="icon" variant="outline">
+                      <PlusIcon size={16} />
+                    </Button>
+                  }
+                />
+              </div>
             </div>
             <ConnectionsList />
           </ResizablePanel>

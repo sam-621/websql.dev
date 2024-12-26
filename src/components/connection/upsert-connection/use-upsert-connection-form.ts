@@ -35,7 +35,12 @@ export const useUpsertConnectionForm = (connection?: Connection) => {
         return;
       }
 
-      const { tables } = await retrieveConnectionData(input);
+      const { tables = [], error } = await retrieveConnectionData(input);
+
+      if (error) {
+        notification.error(error);
+        return;
+      }
 
       if (connection) {
         updateConnectionInStore({ ...input, tables, id: connection.id });

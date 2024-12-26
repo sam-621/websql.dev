@@ -1,33 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import { ChevronDown, ChevronRightIcon } from 'lucide-react';
-import { EXAMPLE_CONNECTIONS, useConnectionStore } from './connection.store';
-import { useEffect } from 'react';
-import { getLocalStorageItem } from '@/lib/utils/local-storage.utils';
-import { StorageKeys } from '@/lib/constants/storage.constants';
+import { ChevronDown, Edit2Icon, TableIcon } from 'lucide-react';
+import { useConnectionStore } from './connection.store';
 
 export const ConnectionsList = () => {
   const connections = useConnectionStore(state => state.connections);
-  const createConnectionInStorage = useConnectionStore(state => state.create);
-
-  useEffect(function createExampleConnections() {
-    const contextStorage = getLocalStorageItem(StorageKeys.Connections);
-
-    // First time visiting the app
-    if (contextStorage === null) {
-      EXAMPLE_CONNECTIONS.forEach(connection => createConnectionInStorage(connection));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Accordion type="single" collapsible className="w-full" defaultValue="3">
       {connections.map(item => (
         <AccordionItem value={item.id} key={item.id}>
-          <AccordionTrigger className="justify-between gap-3 p-3 text-[15px] leading-6 hover:no-underline">
-            <span className="flex items-center gap-3">
+          <div className="flex items-center hover:bg-background group transition-all">
+            <AccordionTrigger className="justify-normal gap-3 px-3 py-1 text-[15px] leading-6 hover:no-underline [&>svg]:-order-1 w-full">
               <Image
                 src={item.type === 'postgresql' ? 'postgresql.svg' : 'mysql.svg'}
                 alt="database icon"
@@ -35,11 +20,26 @@ export const ConnectionsList = () => {
                 height={16}
               />
               <span>{item.name}</span>
-            </span>
-          </AccordionTrigger>
-          <AccordionContent className="p-0">
+            </AccordionTrigger>
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 pr-3">
+              <UpsertConnectionButton
+                connection={item}
+                trigger={
+                  <button className="text-muted-foreground">
+                    <Edit2Icon size={16} />
+                  </button>
+                }
+              />
+              <RemoveConnectionButton connection={item} />
+            </div>
+          </div>
+          <AccordionContent>
             {item.tables.map(table => (
-              <div key={table} className="p-3">
+              <div
+                key={table}
+                className="flex items-center gap-2 pl-6 pr-3 py-1 hover:bg-background"
+              >
+                <TableIcon size={16} />
                 <p className="text-sm text-nowrap text-ellipsis whitespace-nowrap overflow-hidden">
                   {table}
                 </p>
@@ -59,32 +59,7 @@ export const ConnectionsList = () => {
       ))}
     </Accordion>
   );
-
-  return (
-    <div className="flex flex-col gap-3 p-3">
-      {connections.map(connection => (
-        <div key={connection.id} className={cn('group flex items-center justify-between')}>
-          <div className="flex items-center gap-1">
-            <Image
-              src={connection.type === 'postgresql' ? 'postgresql.svg' : 'mysql.svg'}
-              alt="database icon"
-              width={24}
-              height={24}
-            />
-            <p className="text-sm text-nowrap text-ellipsis whitespace-nowrap overflow-hidden">
-              {connection.name}
-            </p>
-          </div>
-          <div>
-            <ChevronRightIcon size={16} />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
 };
-
-// Dependencies: pnpm install lucide-react
 
 import {
   Accordion,
@@ -94,6 +69,8 @@ import {
 } from '@/components/ui/accordion';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { AtSign, CircleDashed, Command, Eclipse, Gauge, LucideIcon, Zap } from 'lucide-react';
+import { UpsertConnectionButton } from './upsert-connection/upsert-connection-button';
+import { RemoveConnectionButton } from './remove-connection-button';
 
 const items = [
   {

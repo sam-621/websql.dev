@@ -51,7 +51,7 @@ export class MySQL implements StorageClient {
     }
   }
 
-  async getTables(): Promise<string[]> {
+  async getTables(): Promise<QueryError | string[]> {
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {

@@ -46,7 +46,7 @@ export class PostgreSQL implements StorageClient {
     }
   }
 
-  async getTables(): Promise<string[]> {
+  async getTables(): Promise<QueryError | string[]> {
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {
@@ -61,10 +61,8 @@ export class PostgreSQL implements StorageClient {
       this.client?.end();
 
       return result.rows.map((row: { table_name: string }) => row.table_name);
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      return [];
+      return new QueryError('Failed to get tables', error);
     }
   }
 
