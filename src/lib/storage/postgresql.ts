@@ -11,6 +11,14 @@ export class PostgreSQL implements StorageClient {
   }
 
   async testConnection(): Promise<boolean> {
+    if (
+      typeof this.config === 'string' &&
+      !this.config.startsWith('postgresql://') &&
+      !this.config.startsWith('postgres://')
+    ) {
+      return false;
+    }
+
     const result = await this.createConnection();
 
     if (result instanceof DatabaseError) {
