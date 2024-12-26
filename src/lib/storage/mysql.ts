@@ -21,7 +21,7 @@ export class MySQL implements StorageClient {
     return true;
   }
 
-  async execute(query: string): Promise<ExecuteResult | QueryError> {
+  async execute(query: string[]): Promise<ExecuteResult | QueryError> {
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {
@@ -29,7 +29,12 @@ export class MySQL implements StorageClient {
     }
 
     try {
-      const [rows] = await client.execute(query);
+      let rows = null;
+
+      for (const q of query) {
+        // Always save the last query result
+        [rows] = await client.query(q);
+      }
 
       this.client?.destroy();
 
@@ -42,7 +47,7 @@ export class MySQL implements StorageClient {
         return {
           rows: [],
           rowCount: 0,
-          affectedRows: rows.affectedRows
+          affectedRows: rows?.affectedRows ?? 0
         };
       }
     } catch (error) {

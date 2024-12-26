@@ -1,4 +1,4 @@
-import { Client, ClientConfig } from 'pg';
+import { Client, ClientConfig, QueryResult } from 'pg';
 import { ConnectionError, DatabaseError, QueryError } from './storage-errors';
 import { ExecuteResult, StorageClient } from './storage-client';
 
@@ -21,7 +21,7 @@ export class PostgreSQL implements StorageClient {
     return true;
   }
 
-  async execute(query: string): Promise<ExecuteResult | QueryError> {
+  async execute(query: string[]): Promise<ExecuteResult | QueryError> {
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {
@@ -29,15 +29,20 @@ export class PostgreSQL implements StorageClient {
     }
 
     try {
-      const result = await client.query(query);
+      let result: QueryResult | null = null;
+
+      for (const q of query) {
+        // Always save the last query result
+        result = await client.query(q);
+      }
 
       this.client?.end();
 
       return {
-        rows: result.rows,
-        rowCount: result.rowCount ?? 0,
-        affectedRows: ['INSERT', 'UPDATE', 'DELETE'].includes(result.command)
-          ? result.rowCount ?? 0
+        rows: result?.rows ?? [],
+        rowCount: result?.rowCount ?? 0,
+        affectedRows: ['INSERT', 'UPDATE', 'DELETE'].includes(result?.command ?? '')
+          ? result?.rowCount ?? 0
           : 0
       };
     } catch (error) {

@@ -20,8 +20,8 @@ export class Storage {
     return this.client.testConnection();
   }
 
-  async execute(query: string) {
-    return this.client.execute(query);
+  async execute(queries: string[]) {
+    return this.client.execute(queries);
   }
 
   async getTables() {

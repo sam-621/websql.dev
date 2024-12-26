@@ -4,10 +4,10 @@ import { Storage } from '@/lib/storage';
 import { QueryError } from '@/lib/storage/storage-errors';
 import { Connection } from '@/lib/types/connection.type';
 
-export const executeQuery = async (connection: Connection, query: string): Promise<Result> => {
+export const executeQuery = async (connection: Connection, queries: string[]): Promise<Result> => {
   const storage = new Storage(connection);
 
-  const result = await storage.execute(query);
+  const result = await storage.execute(queries);
 
   if (result instanceof QueryError) {
     return { success: false, error: result.clientMsg };
