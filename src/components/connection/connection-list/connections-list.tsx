@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { ChevronDown, Edit2Icon, TableIcon } from 'lucide-react';
-import { useConnectionStore } from './connection.store';
+import { useConnectionStore } from '../connection.store';
 
 export const ConnectionsList = () => {
   const connections = useConnectionStore(state => state.connections);
@@ -69,8 +69,8 @@ import {
 } from '@/components/ui/accordion';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { AtSign, CircleDashed, Command, Eclipse, Gauge, LucideIcon, Zap } from 'lucide-react';
-import { UpsertConnectionButton } from './upsert-connection/upsert-connection-button';
-import { RemoveConnectionButton } from './remove-connection-button';
+import { UpsertConnectionButton } from '../upsert-connection/upsert-connection-button';
+import { RemoveConnectionButton } from '../remove-connection-button';
 
 const items = [
   {

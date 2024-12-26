@@ -1,4 +1,5 @@
-import { ConnectionsList } from '@/components/connection/connections-list';
+import { ConnectionsList } from '@/components/connection/connection-list/connections-list';
+import { ConnectionsListHeader } from '@/components/connection/connection-list/connections-list-header';
 import { UpsertConnectionButton } from '@/components/connection/upsert-connection/upsert-connection-button';
 import { Playground } from '@/components/playground';
 import { Button } from '@/components/ui/button';
@@ -25,21 +26,7 @@ export default function Home() {
       <main className="w-full md:max-w-[calc(100vw-73px)]">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={10}>
-            <div className="flex items-center justify-between gap-2 p-3">
-              <h3 className="jetbrains_font">Connections</h3>
-              <div className="flex items-center gap-2">
-                <Button size="icon" variant="outline">
-                  <RefreshCcwIcon size={16} />
-                </Button>
-                <UpsertConnectionButton
-                  trigger={
-                    <Button size="icon" variant="outline">
-                      <PlusIcon size={16} />
-                    </Button>
-                  }
-                />
-              </div>
-            </div>
+            <ConnectionsListHeader />
             <ConnectionsList />
           </ResizablePanel>
           <ResizableHandle />
