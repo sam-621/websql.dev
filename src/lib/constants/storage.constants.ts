@@ -1,4 +1,5 @@
 export const StorageKeys = {
   Code: 'code-value',
-  Connections: 'connections-storage'
+  Connections: 'connections-storage',
+  TableViewer: 'table-viewer-storage'
 };
