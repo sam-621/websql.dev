@@ -5,9 +5,9 @@ import { RefreshConnectionButton } from '../refresh-connection/refresh-connectio
 
 export const ConnectionsListHeader = () => {
   return (
-    <header className="flex items-center justify-between gap-2 p-3">
+    <header className="flex items-center justify-between gap-2 p-3 relative h-[60px]">
       <h3 className="jetbrains_font">Connections</h3>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 absolute right-3">
         <RefreshConnectionButton />
         <UpsertConnectionButton
           trigger={

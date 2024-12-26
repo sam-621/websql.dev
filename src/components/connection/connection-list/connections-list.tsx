@@ -11,7 +11,7 @@ export const ConnectionsList = () => {
     <Accordion type="single" collapsible className="w-full" defaultValue="3">
       {connections.map(item => (
         <AccordionItem value={item.id} key={item.id}>
-          <div className="flex items-center hover:bg-background group transition-all">
+          <div className="relative flex items-center hover:bg-background group transition-all">
             <AccordionTrigger className="justify-normal gap-3 px-3 py-1 text-[15px] leading-6 hover:no-underline [&>svg]:-order-1 w-full">
               <Image
                 src={item.type === 'postgresql' ? 'postgresql.svg' : 'mysql.svg'}
@@ -19,9 +19,9 @@ export const ConnectionsList = () => {
                 width={16}
                 height={16}
               />
-              <span>{item.name}</span>
+              <span className="text-nowrap">{item.name}</span>
             </AccordionTrigger>
-            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 pr-3">
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 px-3 absolute right-0 bg-background">
               <UpsertConnectionButton
                 connection={item}
                 trigger={

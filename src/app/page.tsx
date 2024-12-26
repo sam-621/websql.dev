@@ -1,10 +1,8 @@
 import { ConnectionsList } from '@/components/connection/connection-list/connections-list';
 import { ConnectionsListHeader } from '@/components/connection/connection-list/connections-list-header';
-import { UpsertConnectionButton } from '@/components/connection/upsert-connection/upsert-connection-button';
 import { Playground } from '@/components/playground';
-import { Button } from '@/components/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { DatabaseIcon, PlusIcon, RefreshCcwIcon } from 'lucide-react';
+import { DatabaseIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
@@ -25,7 +23,7 @@ export default function Home() {
       </aside>
       <main className="w-full md:max-w-[calc(100vw-73px)]">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={10}>
+          <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
             <ConnectionsListHeader />
             <ConnectionsList />
           </ResizablePanel>
