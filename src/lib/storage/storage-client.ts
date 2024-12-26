@@ -4,7 +4,7 @@ import { QueryError } from './storage-errors';
 
 export interface StorageClient {
   testConnection(): Promise<boolean>;
-  execute(query: string): Promise<ExecuteResult | QueryError>;
+  execute(query: string[]): Promise<ExecuteResult | QueryError>;
   getTables(): Promise<QueryError | string[]>;
 }
 

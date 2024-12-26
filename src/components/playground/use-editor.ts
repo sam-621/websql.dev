@@ -35,7 +35,7 @@ export const useEditor = (editor: RefObject<EditorRef>) => {
     const selectedCode = editor.current.getModel().getValueInRange(editor.current.getSelection());
     const allCode = editor.current.getModel().getValue();
 
-    const code = selectedCode || allCode;
+    const code: string = selectedCode || allCode;
 
     if (!code?.length) {
       return;
@@ -45,11 +45,14 @@ export const useEditor = (editor: RefObject<EditorRef>) => {
       return;
     }
 
+    // Sql clients does not support multiple queries, so we split them to run one by one
+    const queries = code.replaceAll('Go', 'go').split('go').filter(Boolean);
+
     setError('');
     setResult([]);
 
     setIsLoading(true);
-    const result = await executeQuery(selectedConnection, code);
+    const result = await executeQuery(selectedConnection, queries);
 
     if (!result.success) {
       setError(result.error);
