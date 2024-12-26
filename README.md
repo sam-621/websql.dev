@@ -16,7 +16,8 @@ I don't know, if it's useful, use it, if not, try it.
 
 - [x] PostgreSQL
 - [x] MySQL
-- [ ] User accounts 🚧
+- [ ] Table viewer
+- [ ] User accounts
 
 ## Theme
 
