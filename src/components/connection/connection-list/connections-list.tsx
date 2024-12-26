@@ -18,7 +18,12 @@ export const ConnectionsList = () => {
   const selectTable = useTableViewerStore(state => state.select);
 
   return (
-    <Accordion type="single" collapsible className="w-full" defaultValue="3">
+    <Accordion
+      type="single"
+      collapsible
+      className="w-full h-[calc(100vh-60px)] overflow-y-auto"
+      defaultValue="3"
+    >
       {connections.map(item => (
         <AccordionItem value={item.id} key={item.id}>
           <div className="relative flex items-center hover:bg-background group transition-all">
@@ -47,7 +52,7 @@ export const ConnectionsList = () => {
             {item.tables.map(table => (
               <button
                 key={table}
-                className="flex items-center gap-2 pl-6 pr-3 py-1 hover:bg-background"
+                className="flex items-center gap-2 pl-6 pr-3 py-1 hover:bg-background w-full"
                 onClick={() => selectTable(item.id, table)}
               >
                 <TableIcon size={16} />
