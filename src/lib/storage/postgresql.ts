@@ -18,6 +18,7 @@ export class PostgreSQL implements StorageClient {
     }
 
     this.client?.end();
+    this.client = null;
     return true;
   }
 
@@ -37,6 +38,7 @@ export class PostgreSQL implements StorageClient {
       }
 
       this.client?.end();
+      this.client = null;
 
       return {
         rows: result?.rows ?? [],
@@ -64,6 +66,7 @@ export class PostgreSQL implements StorageClient {
       );
 
       this.client?.end();
+      this.client = null;
 
       return result.rows.map((row: { table_name: string }) => row.table_name);
     } catch (error) {
