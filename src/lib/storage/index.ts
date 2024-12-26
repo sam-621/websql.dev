@@ -23,4 +23,8 @@ export class Storage {
   async execute(query: string) {
     return this.client.execute(query);
   }
+
+  async getTables() {
+    return this.client.getTables();
+  }
 }

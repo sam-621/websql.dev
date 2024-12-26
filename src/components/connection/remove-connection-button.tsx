@@ -27,9 +27,9 @@ export const RemoveConnectionButton: FC<Props> = ({ connection }) => {
   return (
     <Dialog isOpen={isOpen} setIsOpen={setIsOpen}>
       <DialogTrigger asChild>
-        <Button size="icon" variant="outline">
+        <button className="text-muted-foreground">
           <Trash2Icon size={16} />
-        </Button>
+        </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

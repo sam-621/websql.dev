@@ -1,8 +1,8 @@
-import { ConnectionsList } from '@/components/connection/connections-list';
-import { UpsertConnectionButton } from '@/components/connection/upsert-connection/upsert-connection-button';
+import { ConnectionsList } from '@/components/connection/connection-list/connections-list';
+import { ConnectionsListHeader } from '@/components/connection/connection-list/connections-list-header';
 import { Playground } from '@/components/playground';
-import { Button } from '@/components/ui/button';
-import { DatabaseIcon, PlusIcon } from 'lucide-react';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import { DatabaseIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
@@ -21,23 +21,17 @@ export default function Home() {
           </a>
         </div>
       </aside>
-      <main className="md:max-w-[calc(100vw-73px)] grid grid-cols-4">
-        <div className="divide-y bg-muted col-span-1 border-r">
-          <div className="flex items-center justify-between gap-2 p-3">
-            <h3 className="jetbrains_font">Connections</h3>
-            <UpsertConnectionButton
-              trigger={
-                <Button size="icon" variant="outline">
-                  <PlusIcon size={16} />
-                </Button>
-              }
-            />
-          </div>
-          <ConnectionsList />
-        </div>
-        <div className="h-full col-span-3">
-          <Playground />
-        </div>
+      <main className="w-full md:max-w-[calc(100vw-73px)]">
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
+            <ConnectionsListHeader />
+            <ConnectionsList />
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={75} className="h-full">
+            <Playground />
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </main>
     </div>
   );
