@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { ResultTable } from '../table-viewer/result-table';
 
 export const PlaygroundResultPanel: FC<Props> = ({ error, result, isLoading }) => {
   const rows = useMemo(
@@ -23,30 +23,7 @@ export const PlaygroundResultPanel: FC<Props> = ({ error, result, isLoading }) =
             <p className="text-destructive jetbrains_font">{error}</p>
           </div>
         )}
-        {result.length > 0 && (
-          <Table>
-            <TableHeader className="h-12 bg-muted border-t">
-              <TableRow className="h-full divide-x">
-                {rows.map(row => (
-                  <TableHead key={row}>{row}</TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody className="border-b">
-              {result.map(r => (
-                <TableRow key={Object.values(r).join('')} className="divide-x">
-                  {rows.map(row => {
-                    return (
-                      <TableCell key={row} className="text-nowrap">
-                        {String(r[row])}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
+        {result.length > 0 && <ResultTable rows={rows} result={result} />}
         {result.length === 0 && !isLoading && !error && (
           <div className="flex justify-center items-center h-full">
             <p className="jetbrains_font">No results</p>
