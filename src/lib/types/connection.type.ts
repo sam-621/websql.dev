@@ -6,4 +6,6 @@ export type Connection = {
   tables: string[];
 };
 
+export type CreateConnectionInput = Omit<Connection, 'id'>;
+
 export type ConnectionConfig = Omit<Connection, 'id' | 'tables' | 'name'>;

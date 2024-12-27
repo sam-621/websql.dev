@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { useTableViewerStore } from './table-viewer-store';
+import { useTableViewerStore } from './table-viewer.store';
 import { TableIcon, XIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { TableViewer } from './table-viewer';

@@ -42,7 +42,7 @@ export default function RootLayout({
           <Notification />
           <NextTopLoader color="hsl(var(--primary))" />
 
-          <div className="grid grid-cols-[auto,1fr] h-screen">
+          <div className="grid grid-cols-[auto,1fr] h-screen overflow-hidden">
             <Nav />
             <main className="w-full md:max-w-[calc(100vw-73px)]">
               <ResizablePanelGroup direction="horizontal">

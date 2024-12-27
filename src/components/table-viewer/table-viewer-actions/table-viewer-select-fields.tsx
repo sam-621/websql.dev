@@ -3,7 +3,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { FC, useMemo } from 'react';
-import { useTableViewerStore } from '../table-viewer-store';
+import { useTableViewerStore } from '../table-viewer.store';
 
 export const TableViewerSelectFields: FC<Props> = ({ fields }) => {
   const selected = useTableViewerStore(state => state.selected);

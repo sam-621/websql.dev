@@ -1,7 +1,7 @@
 import { useConnectionStore } from '@/components/connection/connection.store';
 import { useState } from 'react';
 import { buildQuery } from './build-query';
-import { useTableViewerStore } from '../table-viewer-store';
+import { useTableViewerStore } from '../table-viewer.store';
 import { notification } from '@/lib/notification/notifications';
 
 export const useBuildQuery = () => {

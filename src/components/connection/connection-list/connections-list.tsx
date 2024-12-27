@@ -10,8 +10,8 @@ import {
   AccordionTrigger
 } from '@/components/ui/accordion';
 import { UpsertConnectionButton } from '../upsert-connection/upsert-connection-button';
-import { RemoveConnectionButton } from '../remove-connection-button';
-import { useTableViewerStore } from '@/components/table-viewer/table-viewer-store';
+import { RemoveConnectionButton } from '../remove-connection/remove-connection-button';
+import { useTableViewerStore } from '@/components/table-viewer/table-viewer.store';
 
 export const ConnectionsList = () => {
   const connections = useConnectionStore(state => state.connections);

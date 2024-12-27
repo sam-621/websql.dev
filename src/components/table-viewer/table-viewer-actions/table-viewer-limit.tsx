@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useTableViewerStore } from '../table-viewer-store';
+import { useTableViewerStore } from '../table-viewer.store';
 import { useMemo } from 'react';
 
 export const TableViewerLimit = () => {
@@ -21,7 +21,7 @@ export const TableViewerLimit = () => {
       <PopoverTrigger asChild>
         <Button variant="secondary">Limit</Button>
       </PopoverTrigger>
-      <PopoverContent className="flex flex-col gap-1">
+      <PopoverContent className="flex flex-col gap-2">
         <Label>Limit</Label>
         <Input
           type="number"

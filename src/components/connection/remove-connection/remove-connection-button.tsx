@@ -8,28 +8,13 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Trash2Icon } from 'lucide-react';
-import { notification } from '@/lib/notification/notifications';
 import { Connection } from '@/lib/types/connection.type';
-import { useConnectionStore } from './connection.store';
-import { useTableViewerStore } from '../table-viewer/table-viewer-store';
+import { useRemoveConnection } from './use-remove-connection';
 
 export const RemoveConnectionButton: FC<Props> = ({ connection }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const removeConnectionFromStore = useConnectionStore(state => state.remove);
-  const removeAllTabsFromStoreByConnection = useTableViewerStore(
-    state => state.removeAllTabsFromConnection
-  );
-
-  const handleRemove = () => {
-    removeConnectionFromStore(connection.id);
-    // Remove all tabs that are associated with this connection
-    removeAllTabsFromStoreByConnection(connection.id);
-
-    notification.success(`Connection ${connection.name} removed`);
-    setIsOpen(false);
-  };
+  const { handleRemove, isOpen, setIsOpen } = useRemoveConnection(connection);
 
   return (
     <Dialog isOpen={isOpen} setIsOpen={setIsOpen}>

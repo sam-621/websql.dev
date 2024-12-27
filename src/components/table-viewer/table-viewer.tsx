@@ -43,7 +43,7 @@ export const TableViewer = () => {
           <Button size="sm">Add record</Button>
         </div>
       </header>
-      <div className="overflow-x-auto">
+      <div className="h-[calc(100vh-84px)] overflow-auto">
         {isLoading ? (
           <div className="flex justify-center items-center h-40">
             <LoaderSpiner size={32} />
