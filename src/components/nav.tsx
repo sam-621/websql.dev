@@ -20,7 +20,7 @@ export const Nav = () => {
           <Image src="/logo.svg" alt="Logo" width={39} height={39} />
         </Link>
         <div className="flex flex-col gap-3">
-          <Tooltip content="Home" side="right">
+          <Tooltip content="Connections" side="right">
             <Link href="/" className={cn('p-3 rounded-full', isHome && 'bg-muted-foreground/10')}>
               <DatabaseIcon size={24} className="text-muted-foreground" />
             </Link>

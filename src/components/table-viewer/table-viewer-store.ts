@@ -15,6 +15,7 @@ type Schema = {
   select: (connection: Connection['id'], table: string) => void;
   removeTab: (connection: Connection['id'], table: string) => void;
   addConfig: (connection: Connection['id'], table: string, config: Partial<Config>) => void;
+  removeAllTabsFromConnection: (connection: Connection['id']) => void;
 };
 
 export const useTableViewerStore = create<Schema>()(
@@ -85,6 +86,13 @@ export const useTableViewerStore = create<Schema>()(
               ? { ...tab, config: { ...tab.config, ...config } }
               : tab
           )
+        }));
+      },
+      removeAllTabsFromConnection(connection) {
+        set(state => ({
+          tabs: state.tabs.filter(tab => tab.connection !== connection),
+          selected:
+            state.selected?.connection === connection ? state.tabs[0] ?? null : state.selected
         }));
       }
     }),

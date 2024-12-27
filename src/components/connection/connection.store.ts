@@ -8,7 +8,7 @@ type Schema = {
   connections: Connection[];
   selectedConnection: Connection | null;
   selectConnection: (connection: Connection) => void;
-  create: (connection: ConnectionConfig & { tables: string[] }) => void;
+  create: (connection: ConnectionConfig & { tables: string[]; name: string }) => void;
   update: (connection: Connection) => void;
   remove: (id: string) => void;
 };
