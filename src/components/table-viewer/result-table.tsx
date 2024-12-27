@@ -1,5 +1,12 @@
 import { FC } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table';
 
 export const ResultTable: FC<Props> = ({ rows, result }) => {
   return (
