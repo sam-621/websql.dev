@@ -3,11 +3,17 @@ import { Connection } from '@/lib/types/connection.type';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+type Config = {
+  fields: string[];
+  allFields: string[];
+};
+
 type Schema = {
-  tabs: { connection: Connection['id']; table: string }[];
+  tabs: { connection: Connection['id']; table: string; config: Config }[];
   selected: { connection: Connection['id']; table: string } | null;
   select: (connection: Connection['id'], table: string) => void;
   removeTab: (connection: Connection['id'], table: string) => void;
+  addConfig: (connection: Connection['id'], table: string, config: Partial<Config>) => void;
 };
 
 export const useTableViewerStore = create<Schema>()(
@@ -23,14 +29,13 @@ export const useTableViewerStore = create<Schema>()(
 
           if (alreadySelected) {
             return {
-              selected: { connection, table },
-              tabs: state.tabs
+              selected: { connection, table }
             };
           }
 
           return {
             selected: { connection, table },
-            tabs: [...state.tabs, { connection, table }]
+            tabs: [...state.tabs, { connection, table, config: { fields: [], allFields: [] } }]
           };
         });
       },
@@ -58,11 +63,6 @@ export const useTableViewerStore = create<Schema>()(
                   newTabs[0]
                 : null;
 
-            console.log({
-              newSelectedTab,
-              newTabs
-            });
-
             return {
               selected: newSelectedTab,
               tabs: newTabs
@@ -73,6 +73,15 @@ export const useTableViewerStore = create<Schema>()(
             tabs: newTabs
           };
         });
+      },
+      addConfig(connection, table, config) {
+        set(state => ({
+          tabs: state.tabs.map(tab =>
+            tab.connection === connection && tab.table === table
+              ? { ...tab, config: { ...tab.config, ...config } }
+              : tab
+          )
+        }));
       }
     }),
     { name: StorageKeys.TableViewer }

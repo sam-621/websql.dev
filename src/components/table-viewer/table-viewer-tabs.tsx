@@ -3,11 +3,11 @@
 import { useMemo } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { useTableViewerStore } from './table-viewer-store';
-import { ResultTable } from './result-table';
 import { TableIcon, XIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { TableViewer } from './table-viewer';
 
-export const TableViewer = () => {
+export const TableViewerTabs = () => {
   const {
     selected,
     select: selectTableInStore,
@@ -15,6 +15,14 @@ export const TableViewer = () => {
     removeTab
   } = useTableViewerStore(state => state);
   const selectedTab = useMemo(() => (selected ? genTabId(selected) : ''), [selected]);
+
+  if (!tabs.length) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p className="text-muted-foreground">No tables selected</p>
+      </div>
+    );
+  }
 
   return (
     <Tabs
@@ -24,7 +32,7 @@ export const TableViewer = () => {
         selectTableInStore(connection, table);
       }}
     >
-      <TabsList className="w-full justify-start p-0">
+      <TabsList className="w-full justify-start p-0 rounded-none">
         {tabs.map(tab => (
           <TabsTrigger key={genTabId(tab)} value={genTabId(tab)} className="rounded-none">
             <TableIcon size={16} className="mr-2" />
@@ -39,7 +47,7 @@ export const TableViewer = () => {
       </TabsList>
       {tabs.map(tab => (
         <TabsContent key={genTabId(tab)} value={genTabId(tab)}>
-          <ResultTable result={[]} rows={[]} />
+          <TableViewer />
         </TabsContent>
       ))}
     </Tabs>
