@@ -121,6 +121,29 @@ export class MySQL implements StorageClient {
     }
   }
 
+  async getPrimaryKey(tableName: string): Promise<QueryError | string> {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return new QueryError('Failed to connect', client);
+    }
+
+    try {
+      const [rows] = await client.execute(`SHOW KEYS FROM ${tableName} WHERE Key_name = 'PRIMARY'`);
+
+      this.client?.destroy();
+      this.client = null;
+
+      if (Array.isArray(rows)) {
+        return (rows[0] as Record<string, unknown>).Column_name as string;
+      } else {
+        return '';
+      }
+    } catch (error) {
+      return new QueryError('Failed to retrieve primary key', error);
+    }
+  }
+
   private async createConnection() {
     try {
       if (this.client) {

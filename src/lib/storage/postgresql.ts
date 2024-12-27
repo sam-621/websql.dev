@@ -107,6 +107,27 @@ export class PostgreSQL implements StorageClient {
     }
   }
 
+  async getPrimaryKey(tableName: string): Promise<QueryError | string> {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return new QueryError('Failed to connect', client);
+    }
+
+    try {
+      const result = await client.query(
+        `SELECT column_name FROM information_schema.key_column_usage WHERE table_name = '${tableName.toLowerCase()}'`
+      );
+
+      this.client?.end();
+      this.client = null;
+
+      return result.rows[0].column_name;
+    } catch (error) {
+      return new QueryError('Failed to retrieve primary key', error);
+    }
+  }
+
   private async createConnection() {
     try {
       if (this.client) {

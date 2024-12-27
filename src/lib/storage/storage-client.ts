@@ -10,6 +10,7 @@ export interface StorageClient {
     query: string,
     values: string[]
   ): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError>;
+  getPrimaryKey(tableName: string): Promise<QueryError | string>;
 }
 
 export type ExecuteResult = {
