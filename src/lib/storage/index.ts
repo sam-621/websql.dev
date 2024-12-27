@@ -27,4 +27,8 @@ export class Storage {
   async getTables() {
     return this.client.getTables();
   }
+
+  async buildQuery(query: string, values: string[]) {
+    return this.client.buildQuery(query, values);
+  }
 }

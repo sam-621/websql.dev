@@ -88,6 +88,39 @@ export class MySQL implements StorageClient {
     }
   }
 
+  async buildQuery(
+    query: string,
+    values: string[]
+  ): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError> {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return new QueryError('Failed to connect', client);
+    }
+
+    try {
+      const [rows] = await client.query(query, values);
+
+      this.client?.destroy();
+      this.client = null;
+
+      if (Array.isArray(rows)) {
+        return {
+          rows: rows as Record<string, unknown>[],
+          rowCount: rows.length
+        };
+      } else {
+        return {
+          rows: [],
+          rowCount: 0
+        };
+      }
+    } catch (error) {
+      // @ts-expect-error error is an instance of Error
+      return new QueryError(error.message, error);
+    }
+  }
+
   private async createConnection() {
     try {
       if (this.client) {

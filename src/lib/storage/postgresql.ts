@@ -82,6 +82,31 @@ export class PostgreSQL implements StorageClient {
     }
   }
 
+  async buildQuery(
+    query: string,
+    values: string[]
+  ): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError> {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return new QueryError('Failed to connect', client);
+    }
+
+    try {
+      const result = await client.query(query, values);
+
+      this.client?.end();
+      this.client = null;
+
+      return {
+        rows: result.rows,
+        rowCount: result.rowCount ?? 0
+      };
+    } catch (error) {
+      return new QueryError('Failed to get tables', error);
+    }
+  }
+
   private async createConnection() {
     try {
       if (this.client) {

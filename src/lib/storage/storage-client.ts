@@ -6,6 +6,10 @@ export interface StorageClient {
   testConnection(): Promise<boolean>;
   execute(query: string[]): Promise<ExecuteResult | QueryError>;
   getTables(): Promise<QueryError | string[]>;
+  buildQuery(
+    query: string,
+    values: string[]
+  ): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError>;
 }
 
 export type ExecuteResult = {
