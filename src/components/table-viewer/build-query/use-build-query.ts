@@ -25,7 +25,8 @@ export const useBuildQuery = () => {
 
     const result = await buildQuery(connection, {
       table: selectedTable.table,
-      fields: tabConfig?.fields
+      fields: tabConfig?.fields,
+      limit: tabConfig?.limit
     });
 
     if (result.error) {
@@ -38,7 +39,11 @@ export const useBuildQuery = () => {
 
     if (!tabConfig?.allFields.length) {
       const rows = result?.rows?.length ? Object.keys(result.rows[0]).map(key => key) : [];
-      addConfig(selectedTable.connection, selectedTable.table, { fields: rows, allFields: rows });
+      addConfig(selectedTable.connection, selectedTable.table, {
+        fields: rows,
+        allFields: rows,
+        limit: 100
+      });
     }
 
     return {

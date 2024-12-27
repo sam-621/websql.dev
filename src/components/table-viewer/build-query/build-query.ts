@@ -8,8 +8,9 @@ export const buildQuery = async (connection: ConnectionConfig, input: Input) => 
   const storage = new Storage(connection);
 
   const fields = input.fields?.length ? input.fields.join(', ') : '*';
+  const limit = input.limit ? `LIMIT ${input.limit}` : 'LIMIT 100';
 
-  const result = await storage.buildQuery(`SELECT ${fields} FROM ${input.table}`, []);
+  const result = await storage.buildQuery(`SELECT ${fields} FROM ${input.table} ${limit}`, []);
 
   if (result instanceof QueryError) {
     return { error: 'Failed to build query' };
@@ -23,4 +24,5 @@ export const buildQuery = async (connection: ConnectionConfig, input: Input) => 
 type Input = {
   table: string;
   fields?: string[];
+  limit?: number;
 };

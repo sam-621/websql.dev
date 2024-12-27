@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { ResultTable } from './result-table';
 import { LoaderSpiner } from '@/lib/loaders/loader-spinner';
 import { TableViewerSelectFields } from './table-viewer-actions/table-viewer-select-fields';
+import { TableViewerLimit } from './table-viewer-actions/table-viewer-limit';
 
 export const TableViewer = () => {
   const { isLoading, buildQuery } = useBuildQuery();
@@ -25,6 +26,7 @@ export const TableViewer = () => {
       setResult(resultSet);
       setRows(rows);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refetch]);
 
   return (
@@ -35,7 +37,7 @@ export const TableViewer = () => {
             <RefreshCcwIcon size={16} />
           </Button>
           <TableViewerSelectFields fields={rows} />
-          <Button variant="secondary">Fields</Button>
+          <TableViewerLimit />
         </div>
         <div>
           <Button size="sm">Add record</Button>

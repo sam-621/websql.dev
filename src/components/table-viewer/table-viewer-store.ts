@@ -6,6 +6,7 @@ import { persist } from 'zustand/middleware';
 type Config = {
   fields: string[];
   allFields: string[];
+  limit: number;
 };
 
 type Schema = {
@@ -35,7 +36,10 @@ export const useTableViewerStore = create<Schema>()(
 
           return {
             selected: { connection, table },
-            tabs: [...state.tabs, { connection, table, config: { fields: [], allFields: [] } }]
+            tabs: [
+              ...state.tabs,
+              { connection, table, config: { fields: [], allFields: [], limit: 100 } }
+            ]
           };
         });
       },
