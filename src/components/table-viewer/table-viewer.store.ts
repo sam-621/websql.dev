@@ -7,6 +7,7 @@ type Config = {
   fields: string[];
   allFields: string[];
   limit: number;
+  primaryKey: string;
 };
 
 type Schema = {
@@ -39,7 +40,11 @@ export const useTableViewerStore = create<Schema>()(
             selected: { connection, table },
             tabs: [
               ...state.tabs,
-              { connection, table, config: { fields: [], allFields: [], limit: 100 } }
+              {
+                connection,
+                table,
+                config: { fields: [], allFields: [], limit: 100, primaryKey: '' }
+              }
             ]
           };
         });

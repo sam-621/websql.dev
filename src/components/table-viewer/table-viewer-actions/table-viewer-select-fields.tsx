@@ -35,7 +35,15 @@ export const TableViewerSelectFields: FC<Props> = ({ fields }) => {
                   ? [...allFieldsSelected, field]
                   : allFieldsSelected.filter(f => f !== field);
 
-                addConfig(selected?.connection ?? '', selected?.table ?? '', { fields: newFields });
+                // Sort fields based on the order they are in the allFields array
+                // This is to keep the order of the fields consistent
+                const reorderedArray = newFields.sort((a, b) => {
+                  return allFields.indexOf(a) - allFields.indexOf(b);
+                });
+
+                addConfig(selected?.connection ?? '', selected?.table ?? '', {
+                  fields: reorderedArray
+                });
               }}
             />
             <Label htmlFor={field}>{field}</Label>

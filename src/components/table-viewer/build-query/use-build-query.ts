@@ -42,7 +42,8 @@ export const useBuildQuery = () => {
       addConfig(selectedTable.connection, selectedTable.table, {
         fields: rows,
         allFields: rows,
-        limit: 100
+        limit: 100,
+        primaryKey: result.primaryKey ?? ''
       });
     }
 

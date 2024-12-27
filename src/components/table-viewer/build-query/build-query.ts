@@ -6,8 +6,13 @@ import { ConnectionConfig } from '@/lib/types/connection.type';
 
 export const buildQuery = async (connection: ConnectionConfig, input: Input) => {
   const storage = new Storage(connection);
+  let primaryKey = await storage.getPrimaryKey(input.table);
 
-  const fields = input.fields?.length ? input.fields.join(', ') : '*';
+  if (primaryKey instanceof QueryError) {
+    primaryKey = '';
+  }
+
+  const fields = input.fields?.length ? [...input.fields, primaryKey].join(', ') : '*';
   const limit = input.limit ? `LIMIT ${input.limit}` : 'LIMIT 100';
 
   const result = await storage.buildQuery(`SELECT ${fields} FROM ${input.table} ${limit}`, []);
@@ -17,7 +22,8 @@ export const buildQuery = async (connection: ConnectionConfig, input: Input) => 
   }
 
   return {
-    rows: result.rows
+    rows: result.rows,
+    primaryKey
   };
 };
 
