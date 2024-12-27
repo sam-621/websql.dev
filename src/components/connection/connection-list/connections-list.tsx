@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Edit2Icon, TableIcon } from 'lucide-react';
+import { Edit2Icon } from 'lucide-react';
 import { useConnectionStore } from '../connection.store';
 import {
   Accordion,
@@ -11,11 +11,10 @@ import {
 } from '@/components/ui/accordion';
 import { UpsertConnectionButton } from '../upsert-connection/upsert-connection-button';
 import { RemoveConnectionButton } from '../remove-connection/remove-connection-button';
-import { useTableViewerStore } from '@/components/table-viewer/table-viewer.store';
+import { TableList } from './table-list';
 
 export const ConnectionsList = () => {
   const connections = useConnectionStore(state => state.connections);
-  const selectTable = useTableViewerStore(state => state.select);
 
   return (
     <Accordion
@@ -49,18 +48,7 @@ export const ConnectionsList = () => {
             </div>
           </div>
           <AccordionContent>
-            {item.tables.map(table => (
-              <button
-                key={table}
-                className="flex items-center gap-2 pl-6 pr-3 py-1 hover:bg-background w-full"
-                onClick={() => selectTable(item.id, table)}
-              >
-                <TableIcon size={16} />
-                <p className="text-sm text-nowrap text-ellipsis whitespace-nowrap overflow-hidden">
-                  {table}
-                </p>
-              </button>
-            ))}
+            <TableList connection={item} />
           </AccordionContent>
         </AccordionItem>
       ))}
