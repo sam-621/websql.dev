@@ -22,7 +22,16 @@ export const ResultTable: FC<Props> = ({ rows, result, onSelectChange }) => {
 
   useEffect(() => {
     onSelectChange(selected);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
+
+  if (!result.length) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p className="text-muted-foreground">No data</p>
+      </div>
+    );
+  }
 
   return (
     <Table>

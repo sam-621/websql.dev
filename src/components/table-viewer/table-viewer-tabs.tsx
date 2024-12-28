@@ -34,12 +34,15 @@ export const TableViewerTabs = () => {
     >
       <TabsList className="w-full justify-start p-0 rounded-none">
         {tabs.map(tab => (
-          <TabsTrigger key={genTabId(tab)} value={genTabId(tab)} className="rounded-none">
+          <TabsTrigger key={genTabId(tab)} value={genTabId(tab)} className="rounded-none group">
             <TableIcon size={16} className="mr-2" />
             {tab.table}
             <XIcon
               size={16}
-              className={cn('ml-4 opacity-0', selectedTab === genTabId(tab) && 'opacity-100')}
+              className={cn(
+                'ml-4 opacity-0 group-hover:opacity-100',
+                selectedTab === genTabId(tab) && 'opacity-100'
+              )}
               onClick={() => removeTab(tab.connection, tab.table)}
             />
           </TabsTrigger>
