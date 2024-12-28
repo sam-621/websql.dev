@@ -8,6 +8,7 @@ import { ResultTable } from './result-table';
 import { LoaderSpiner } from '@/lib/loaders/loader-spinner';
 import { TableViewerSelectFields } from './table-viewer-actions/table-viewer-select-fields';
 import { TableViewerLimit } from './table-viewer-actions/table-viewer-limit';
+import { RemoveRecordsButton } from './remove-records/remove-records-button';
 
 export const TableViewer = () => {
   const { isLoading, buildQuery } = useBuildQuery();
@@ -15,6 +16,7 @@ export const TableViewer = () => {
   const [result, setResult] = useState<Record<string, unknown>[]>([]);
   const [rows, setRows] = useState<string[]>([]);
   const [refetch, setRefetch] = useState(0);
+  const [selected, setSelected] = useState<typeof result>([]);
 
   useEffect(() => {
     (async () => {
@@ -39,7 +41,10 @@ export const TableViewer = () => {
           <TableViewerSelectFields fields={rows} />
           <TableViewerLimit />
         </div>
-        <div>
+        <div className="flex items-center gap-3">
+          {Boolean(selected.length) && (
+            <RemoveRecordsButton rows={selected} refetch={() => setRefetch(refetch + 1)} />
+          )}
           <Button size="sm">Add record</Button>
         </div>
       </header>
@@ -49,7 +54,7 @@ export const TableViewer = () => {
             <LoaderSpiner size={32} />
           </div>
         ) : (
-          <ResultTable result={result} rows={rows} />
+          <ResultTable result={result} rows={rows} onSelectChange={rows => setSelected(rows)} />
         )}
       </div>
     </div>

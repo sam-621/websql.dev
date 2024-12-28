@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -8,18 +8,38 @@ import {
   TableRow
 } from '@/components/ui/table';
 import { useTableViewerStore } from './table-viewer.store';
+import { cn } from '@/lib/utils';
+import { Checkbox } from '../ui/checkbox';
 
-export const ResultTable: FC<Props> = ({ rows, result }) => {
+export const ResultTable: FC<Props> = ({ rows, result, onSelectChange }) => {
+  const [selected, setSelected] = useState<typeof result>([]);
+
   const tabConfig = useTableViewerStore(
     state => state.tabs.find(t => t.table === state.selected?.table)?.config
   );
 
   const isPrimaryKeySelected = tabConfig?.fields?.includes(tabConfig?.primaryKey);
 
+  useEffect(() => {
+    onSelectChange(selected);
+  }, [selected]);
+
   return (
     <Table>
       <TableHeader className="h-12 bg-muted border-t">
         <TableRow className="h-full divide-x">
+          <TableHead className="!px-6">
+            <Checkbox
+              checked={Boolean(selected.length)}
+              onCheckedChange={value => {
+                if (value) {
+                  setSelected(result);
+                } else {
+                  setSelected([]);
+                }
+              }}
+            />
+          </TableHead>
           {rows
             .filter(r => (isPrimaryKeySelected ? true : r !== tabConfig?.primaryKey))
             .map(row => (
@@ -28,22 +48,47 @@ export const ResultTable: FC<Props> = ({ rows, result }) => {
         </TableRow>
       </TableHeader>
       <TableBody className="border-b">
-        {result.map(r => (
-          <TableRow key={Object.values(r).join('')} className="divide-x">
-            {rows.map(row => {
-              // Hide primary key if it's not selected in fields list
-              if (!isPrimaryKeySelected && row === tabConfig?.primaryKey) {
-                return null;
-              }
+        {result.map(r => {
+          const isSelected = selected.find(
+            s => Object.values(s).join('') === Object.values(r).join('')
+          );
 
-              return (
-                <TableCell key={row} className="text-nowrap">
-                  {String(r[row])}
-                </TableCell>
-              );
-            })}
-          </TableRow>
-        ))}
+          return (
+            <TableRow
+              key={Object.values(r).join('')}
+              className={cn('divide-x', isSelected && '!bg-muted')}
+            >
+              <TableCell className="text-nowrap px-6">
+                <Checkbox
+                  checked={!!isSelected}
+                  onCheckedChange={value => {
+                    if (value) {
+                      setSelected([...selected, r]);
+                    } else {
+                      setSelected(
+                        selected.filter(
+                          s => Object.values(s).join('') !== Object.values(r).join('')
+                        )
+                      );
+                    }
+                  }}
+                />
+              </TableCell>
+              {rows.map(row => {
+                // Hide primary key if it's not selected in fields list
+                if (!isPrimaryKeySelected && row === tabConfig?.primaryKey) {
+                  return null;
+                }
+
+                return (
+                  <TableCell key={row} className="text-nowrap">
+                    {String(r[row])}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );
@@ -52,4 +97,5 @@ export const ResultTable: FC<Props> = ({ rows, result }) => {
 type Props = {
   rows: string[];
   result: Record<string, unknown>[];
+  onSelectChange: (selected: Record<string, unknown>[]) => void;
 };
