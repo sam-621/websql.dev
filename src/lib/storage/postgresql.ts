@@ -1,6 +1,7 @@
 import { Client, ClientConfig, QueryResult } from 'pg';
 import { ConnectionError, DatabaseError, QueryError } from './storage-errors';
-import { ExecuteResult, StorageClient, TableColumn } from './storage-client';
+import { ExecuteResult, StorageClient } from './storage-client';
+import { TableColumn } from '../types/connection.type';
 
 export class PostgreSQL implements StorageClient {
   private client: Client | null;

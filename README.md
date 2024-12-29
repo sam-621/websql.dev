@@ -7,6 +7,7 @@ A web based SQL client, inspired by Azure Data Studio.
 - Multi provider
 - Run selection
 - Syntax highlighting
+- Table viewer
 
 ### Why?
 
@@ -16,8 +17,8 @@ I don't know, if it's useful, use it, if not, try it.
 
 - [x] PostgreSQL
 - [x] MySQL
-- [ ] Table viewer 🚧
-- [ ] User accounts
+- [x] Table viewer
+- [ ] User accounts 🚧
 
 ## Theme
 
