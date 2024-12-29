@@ -83,10 +83,7 @@ export class PostgreSQL implements StorageClient {
     }
   }
 
-  async buildQuery(
-    query: string,
-    values: string[]
-  ): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError> {
+  async buildQuery(query: string): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError> {
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {
@@ -94,7 +91,7 @@ export class PostgreSQL implements StorageClient {
     }
 
     try {
-      const result = await client.query(query, values);
+      const result = await client.query(query);
 
       this.client?.end();
       this.client = null;
