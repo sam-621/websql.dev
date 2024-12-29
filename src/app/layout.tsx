@@ -8,6 +8,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import { ConnectionsListHeader } from '@/components/connection/connection-list/connections-list-header';
 import { ConnectionsList } from '@/components/connection/connection-list/connections-list';
 import { Nav } from '@/components/nav';
+import { QueryClientProvider } from './query-client';
 
 const interFont = Inter({
   variable: '--font-inter',
@@ -38,26 +39,28 @@ export default function RootLayout({
       <body
         className={`${interFont.variable} ${interFont.className} ${jetBrainsMonoFont.variable} antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-          <Notification />
-          <NextTopLoader color="hsl(var(--primary))" />
+        <QueryClientProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+            <Notification />
+            <NextTopLoader color="hsl(var(--primary))" />
 
-          <div className="grid grid-cols-[auto,1fr] h-screen overflow-hidden">
-            <Nav />
-            <main className="w-full md:max-w-[calc(100vw-73px)]">
-              <ResizablePanelGroup direction="horizontal">
-                <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
-                  <ConnectionsListHeader />
-                  <ConnectionsList />
-                </ResizablePanel>
-                <ResizableHandle />
-                <ResizablePanel defaultSize={75} className="h-full">
-                  {children}
-                </ResizablePanel>
-              </ResizablePanelGroup>
-            </main>
-          </div>
-        </ThemeProvider>
+            <div className="grid grid-cols-[auto,1fr] h-screen overflow-hidden">
+              <Nav />
+              <main className="w-full md:max-w-[calc(100vw-73px)]">
+                <ResizablePanelGroup direction="horizontal">
+                  <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
+                    <ConnectionsListHeader />
+                    <ConnectionsList />
+                  </ResizablePanel>
+                  <ResizableHandle />
+                  <ResizablePanel defaultSize={75} className="h-full">
+                    {children}
+                  </ResizablePanel>
+                </ResizablePanelGroup>
+              </main>
+            </div>
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

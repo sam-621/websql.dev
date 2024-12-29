@@ -3,33 +3,25 @@
 import { RefreshCcwIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useBuildQuery } from './build-query/use-build-query';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ResultTable } from './result-table';
 import { LoaderSpiner } from '@/lib/loaders/loader-spinner';
 import { TableViewerSelectFields } from './table-viewer-actions/table-viewer-select-fields';
 import { TableViewerLimit } from './table-viewer-actions/table-viewer-limit';
 import { RemoveRecordsButton } from './remove-records/remove-records-button';
+import { cn } from '@/lib/utils';
 
 export const TableViewer = () => {
-  const { isLoading, buildQuery } = useBuildQuery();
+  const { isLoading, data, refetch } = useBuildQuery();
 
-  const [result, setResult] = useState<Record<string, unknown>[]>([]);
-  const [rows, setRows] = useState<string[]>([]);
-  const [refetch, setRefetch] = useState(0);
   const [selected, setSelected] = useState<typeof result>([]);
 
-  useEffect(() => {
-    (async () => {
-      const result = await buildQuery();
-      const resultSet = result?.rows ?? [];
+  const [result, rows] = useMemo(() => {
+    const resultSet = data?.rows ?? [];
+    const rows = resultSet.length ? Object.keys(resultSet[0]).map(key => key) : [];
 
-      const rows = resultSet.length ? Object.keys(resultSet[0]).map(key => key) : [];
-
-      setResult(resultSet);
-      setRows(rows);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refetch]);
+    return [resultSet, rows];
+  }, [data]);
 
   return (
     <div className="mt-2">
@@ -38,29 +30,23 @@ export const TableViewer = () => {
           <Button
             size="icon"
             variant="secondary"
-            onClick={() => setRefetch(refetch + 1)}
+            onClick={() => refetch()}
             disabled={isLoading || !result.length}
           >
-            <RefreshCcwIcon size={16} />
+            <RefreshCcwIcon size={16} className={cn(isLoading && 'animate-spin')} />
           </Button>
           <TableViewerSelectFields fields={rows} />
           <TableViewerLimit disabled={!result.length} />
         </div>
         <div className="flex items-center gap-3">
           {Boolean(selected.length) && (
-            <RemoveRecordsButton rows={selected} refetch={() => setRefetch(refetch + 1)} />
+            <RemoveRecordsButton rows={selected} refetch={() => refetch()} />
           )}
           <Button size="sm">Add record</Button>
         </div>
       </header>
       <div className="h-[calc(100vh-84px)] overflow-auto">
-        {isLoading ? (
-          <div className="flex justify-center items-center h-40">
-            <LoaderSpiner size={32} />
-          </div>
-        ) : (
-          <ResultTable result={result} rows={rows} onSelectChange={rows => setSelected(rows)} />
-        )}
+        <ResultTable result={result} rows={rows} onSelectChange={rows => setSelected(rows)} />
       </div>
     </div>
   );
