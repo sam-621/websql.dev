@@ -11,8 +11,8 @@ import { Button } from '@/components/ui/button';
 import { FC } from 'react';
 import { useRemoveRecords } from './use-remove-records';
 
-export const RemoveRecordsButton: FC<Props> = ({ rows, refetch }) => {
-  const { isOpen, setIsOpen, isLoading, handleRemove } = useRemoveRecords(rows, refetch);
+export const RemoveRecordsButton: FC<Props> = ({ rows, onFinish }) => {
+  const { isOpen, setIsOpen, isLoading, handleRemove } = useRemoveRecords(rows, onFinish);
 
   return (
     <Dialog isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -46,5 +46,5 @@ export const RemoveRecordsButton: FC<Props> = ({ rows, refetch }) => {
 
 type Props = {
   rows: Record<string, unknown>[];
-  refetch: () => void;
+  onFinish: () => void;
 };

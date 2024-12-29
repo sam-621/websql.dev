@@ -3,8 +3,10 @@ import { useTableViewerStore } from '../table-viewer.store';
 import { useConnectionStore } from '@/components/connection/connection.store';
 import { removeRecords } from './remove-record';
 import { notification } from '@/lib/notification/notifications';
+import { queryClient } from '@/app/query-client';
+import { CacheKeys } from '@/lib/constants/cache.constants';
 
-export const useRemoveRecords = (rows: Record<string, unknown>[], refetch: () => void) => {
+export const useRemoveRecords = (rows: Record<string, unknown>[], onFinish: () => void) => {
   const [isLoading, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,8 +36,11 @@ export const useRemoveRecords = (rows: Record<string, unknown>[], refetch: () =>
         return;
       }
 
+      await queryClient.invalidateQueries(
+        CacheKeys.TableViewer(selectedTab.table, selectedTab.connection)
+      );
       notification.success('Records removed successfully');
-      refetch();
+      onFinish();
       setIsOpen(false);
     });
   };

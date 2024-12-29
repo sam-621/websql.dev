@@ -40,7 +40,7 @@ export const TableViewer = () => {
         </div>
         <div className="flex items-center gap-3">
           {Boolean(selected.length) && (
-            <RemoveRecordsButton rows={selected} refetch={() => refetch()} />
+            <RemoveRecordsButton rows={selected} onFinish={() => setSelected([])} />
           )}
           <AddRecordButton />
         </div>
