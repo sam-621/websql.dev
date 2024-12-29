@@ -34,16 +34,18 @@ export const useBuildQuery = () => {
       }
 
       if (!tabConfig?.allFields.length) {
-        const rows = result?.rows?.length ? Object.keys(result.rows[0]).map(key => key) : [];
+        const columns = result?.columns?.map(col => col.name);
+
         addConfig(selectedTable.connection, selectedTable.table, {
-          fields: rows,
-          allFields: rows,
+          fields: columns,
+          allFields: columns,
           limit: 100,
           primaryKey: result.primaryKey ?? ''
         });
       }
 
       return {
+        columns: result.columns,
         rows: result.rows
       };
     }

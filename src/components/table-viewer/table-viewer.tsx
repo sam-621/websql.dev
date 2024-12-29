@@ -16,11 +16,11 @@ export const TableViewer = () => {
 
   const [selected, setSelected] = useState<typeof result>([]);
 
-  const [result, rows] = useMemo(() => {
+  const [result, columns] = useMemo(() => {
     const resultSet = data?.rows ?? [];
-    const rows = resultSet.length ? Object.keys(resultSet[0]).map(key => key) : [];
+    const columns = data?.columns?.map(column => column.name) ?? [];
 
-    return [resultSet, rows];
+    return [resultSet, columns];
   }, [data]);
 
   return (
@@ -35,7 +35,7 @@ export const TableViewer = () => {
           >
             <RefreshCcwIcon size={16} className={cn(isLoading && 'animate-spin')} />
           </Button>
-          <TableViewerSelectFields fields={rows} />
+          <TableViewerSelectFields fields={columns} />
           <TableViewerLimit disabled={!result.length} />
         </div>
         <div className="flex items-center gap-3">
@@ -46,7 +46,7 @@ export const TableViewer = () => {
         </div>
       </header>
       <div className="h-[calc(100vh-84px)] overflow-auto">
-        <ResultTable result={result} rows={rows} onSelectChange={rows => setSelected(rows)} />
+        <ResultTable result={result} rows={columns} onSelectChange={rows => setSelected(rows)} />
       </div>
     </div>
   );
