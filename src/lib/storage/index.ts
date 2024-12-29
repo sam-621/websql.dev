@@ -27,4 +27,16 @@ export class Storage {
   async getTables() {
     return this.client.getTables();
   }
+
+  async buildQuery(query: string, values: string[]) {
+    return this.client.buildQuery(query, values);
+  }
+
+  async getPrimaryKey(tableName: string) {
+    return this.client.getPrimaryKey(tableName);
+  }
+
+  async getColumns(tableName: string) {
+    return this.client.getColumns(tableName);
+  }
 }

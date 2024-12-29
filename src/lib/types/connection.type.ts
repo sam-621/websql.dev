@@ -6,4 +6,12 @@ export type Connection = {
   tables: string[];
 };
 
-export type ConnectionConfig = Omit<Connection, 'id' | 'tables'>;
+export type CreateConnectionInput = Omit<Connection, 'id'>;
+
+export type ConnectionConfig = Omit<Connection, 'id' | 'tables' | 'name'>;
+
+export type TableColumn = {
+  name: string;
+  required: boolean;
+  default: string;
+};

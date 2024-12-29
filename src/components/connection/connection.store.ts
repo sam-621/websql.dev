@@ -1,5 +1,5 @@
 import { StorageKeys } from '@/lib/constants/storage.constants';
-import { Connection, ConnectionConfig } from '@/lib/types/connection.type';
+import { Connection, CreateConnectionInput } from '@/lib/types/connection.type';
 import { generateId } from '@/lib/utils';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -8,7 +8,7 @@ type Schema = {
   connections: Connection[];
   selectedConnection: Connection | null;
   selectConnection: (connection: Connection) => void;
-  create: (connection: ConnectionConfig & { tables: string[] }) => void;
+  create: (connection: CreateConnectionInput) => void;
   update: (connection: Connection) => void;
   remove: (id: string) => void;
 };
