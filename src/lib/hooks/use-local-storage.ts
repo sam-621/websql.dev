@@ -7,7 +7,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
   useEffect(() => {
     const storedValue = getLocalStorageItem<T>(key);
 
-    if (storedValue) {
+    if (storedValue !== null) {
       setState(storedValue);
     }
   }, [key]);

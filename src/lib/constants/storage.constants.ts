@@ -1,5 +1,5 @@
 export const StorageKeys = {
-  Code: 'code-value',
-  Connections: 'connections-storage',
-  TableViewer: 'table-viewer-storage'
+  Code: 'websql-code-value-storage',
+  Connections: 'websql-connections-storage',
+  TableViewer: 'websql-table-viewer-storage'
 };

@@ -17,7 +17,7 @@ export const Nav = () => {
     <aside className="bg-muted w-fit border-r flex-col justify-between hidden md:flex">
       <nav className="flex flex-col items-center gap-6 p-3">
         <Link href="/">
-          <Image src="/logo.svg" alt="Logo" width={39} height={39} />
+          <Image src="/logo.svg" alt="Logo" width={39} height={39} priority />
         </Link>
         <div className="flex flex-col gap-3">
           <Tooltip content="Connections" side="right">

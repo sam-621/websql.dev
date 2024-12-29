@@ -1,3 +1,5 @@
+'use client';
+
 import MonacoEditor, { Monaco } from '@monaco-editor/react';
 import { FC } from 'react';
 import { useLocalStorage } from '../hooks/use-local-storage';
@@ -5,7 +7,11 @@ import { StorageKeys } from '../constants/storage.constants';
 import { useDebouncedCallback } from 'use-debounce';
 
 export const Editor: FC<Props> = ({ onChange, onMount }) => {
-  const { value: defaultCodeValue, setValue } = useLocalStorage(StorageKeys.Code, '');
+  const { value: defaultCodeValue, setValue } = useLocalStorage(
+    StorageKeys.Code,
+    `-- Write your SQL query here
+-- Example: SELECT * FROM table_name`
+  );
 
   const saveCode = useDebouncedCallback((code: string) => {
     setValue(code);
