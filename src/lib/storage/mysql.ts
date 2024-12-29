@@ -89,10 +89,7 @@ export class MySQL implements StorageClient {
     }
   }
 
-  async buildQuery(
-    query: string,
-    values: string[]
-  ): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError> {
+  async buildQuery(query: string): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError> {
     const client = await this.createConnection();
 
     if (client instanceof DatabaseError) {
@@ -100,7 +97,7 @@ export class MySQL implements StorageClient {
     }
 
     try {
-      const [rows] = await client.query(query, values);
+      const [rows] = await client.query(query);
 
       this.client?.destroy();
       this.client = null;

@@ -28,8 +28,8 @@ export class Storage {
     return this.client.getTables();
   }
 
-  async buildQuery(query: string, values: string[]) {
-    return this.client.buildQuery(query, values);
+  async buildQuery(query: string) {
+    return this.client.buildQuery(query);
   }
 
   async getPrimaryKey(tableName: string) {
