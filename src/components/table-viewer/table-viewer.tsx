@@ -35,11 +35,16 @@ export const TableViewer = () => {
     <div className="mt-2">
       <header className="flex justify-between items-center gap-4 px-3 pb-2">
         <div className="flex items-center gap-2">
-          <Button size="icon" variant="secondary" onClick={() => setRefetch(refetch + 1)}>
+          <Button
+            size="icon"
+            variant="secondary"
+            onClick={() => setRefetch(refetch + 1)}
+            disabled={isLoading || !result.length}
+          >
             <RefreshCcwIcon size={16} />
           </Button>
           <TableViewerSelectFields fields={rows} />
-          <TableViewerLimit />
+          <TableViewerLimit disabled={!result.length} />
         </div>
         <div className="flex items-center gap-3">
           {Boolean(selected.length) && (

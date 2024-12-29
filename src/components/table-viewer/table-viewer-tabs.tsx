@@ -32,7 +32,7 @@ export const TableViewerTabs = () => {
         selectTableInStore(connection, table);
       }}
     >
-      <TabsList className="w-full justify-start p-0 rounded-none">
+      <TabsList className="w-full justify-start p-0 rounded-none overflow-x-auto">
         {tabs.map(tab => (
           <TabsTrigger key={genTabId(tab)} value={genTabId(tab)} className="rounded-none group">
             <TableIcon size={16} className="mr-2" />

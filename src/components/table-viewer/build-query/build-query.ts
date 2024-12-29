@@ -13,9 +13,14 @@ export const buildQuery = async (connection: ConnectionConfig, input: Input) => 
   }
 
   const fields = input.fields?.length
-    ? [...input.fields, primaryKey].filter(Boolean).join(', ')
+    ? [...input.fields, primaryKey]
+        .filter(Boolean)
+        .map(f => `"${f}"`)
+        .join(', ')
     : '*';
   const limit = input.limit ? `LIMIT ${input.limit}` : 'LIMIT 100';
+
+  console.log(`SELECT ${fields} FROM ${input.table} ${limit}`);
 
   const result = await storage.buildQuery(`SELECT ${fields} FROM ${input.table} ${limit}`, []);
 

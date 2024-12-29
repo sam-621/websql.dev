@@ -21,7 +21,9 @@ export const TableViewerSelectFields: FC<Props> = ({ fields }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="secondary">Fields</Button>
+        <Button variant="secondary" disabled={!allFields.length}>
+          Fields
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="grid gap-3">
         {allFields.map(field => (
