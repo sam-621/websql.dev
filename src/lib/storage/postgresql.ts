@@ -1,6 +1,6 @@
 import { Client, ClientConfig, QueryResult } from 'pg';
 import { ConnectionError, DatabaseError, QueryError } from './storage-errors';
-import { ExecuteResult, StorageClient } from './storage-client';
+import { ExecuteResult, StorageClient, TableColumn } from './storage-client';
 
 export class PostgreSQL implements StorageClient {
   private client: Client | null;
@@ -125,6 +125,30 @@ export class PostgreSQL implements StorageClient {
       return result.rows[0].column_name;
     } catch (error) {
       return new QueryError('Failed to retrieve primary key', error);
+    }
+  }
+
+  async getColumns(tableName: string): Promise<QueryError | TableColumn[]> {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return new QueryError('Failed to connect', client);
+    }
+
+    try {
+      const result = await client.query(`
+        SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns WHERE table_name = '${tableName}';`);
+
+      this.client?.end();
+      this.client = null;
+
+      return result.rows.map(row => ({
+        name: row.column_name,
+        required: row.is_nullable === 'NO',
+        default: row.column_default
+      }));
+    } catch (error) {
+      return new QueryError('Failed to retrieve columns', error);
     }
   }
 

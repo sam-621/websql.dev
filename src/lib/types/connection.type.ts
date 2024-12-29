@@ -9,3 +9,9 @@ export type Connection = {
 export type CreateConnectionInput = Omit<Connection, 'id'>;
 
 export type ConnectionConfig = Omit<Connection, 'id' | 'tables' | 'name'>;
+
+export type TableColumn = {
+  name: string;
+  required: boolean;
+  default: string;
+};

@@ -1,4 +1,4 @@
-import { ConnectionConfig } from '../types/connection.type';
+import { ConnectionConfig, TableColumn } from '../types/connection.type';
 import { PostgreSQL } from './postgresql';
 import { QueryError } from './storage-errors';
 
@@ -11,6 +11,7 @@ export interface StorageClient {
     values: string[]
   ): Promise<Pick<ExecuteResult, 'rows' | 'rowCount'> | QueryError>;
   getPrimaryKey(tableName: string): Promise<QueryError | string>;
+  getColumns(tableName: string): Promise<QueryError | TableColumn[]>;
 }
 
 export type ExecuteResult = {

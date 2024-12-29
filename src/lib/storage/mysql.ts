@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import { ExecuteResult, StorageClient } from './storage-client';
 import { ConnectionError, DatabaseError, QueryError } from './storage-errors';
+import { TableColumn } from '../types/connection.type';
 
 export class MySQL implements StorageClient {
   private client: mysql.Connection | null;
@@ -141,6 +142,36 @@ export class MySQL implements StorageClient {
       }
     } catch (error) {
       return new QueryError('Failed to retrieve primary key', error);
+    }
+  }
+
+  async getColumns(tableName: string): Promise<QueryError | TableColumn[]> {
+    const client = await this.createConnection();
+
+    if (client instanceof DatabaseError) {
+      return new QueryError('Failed to connect', client);
+    }
+
+    try {
+      const [rows] = await client.execute(
+        `SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, EXTRA FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${tableName}';`
+      );
+
+      this.client?.destroy();
+      this.client = null;
+
+      if (Array.isArray(rows)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return rows.map((row: any) => ({
+          name: row.COLUMN_NAME as string,
+          required: (row.IS_NULLABLE as string) === 'NO',
+          default: (row.COLUMN_DEFAULT ?? row.EXTRA) as string
+        }));
+      } else {
+        return [];
+      }
+    } catch (error) {
+      return new QueryError('Failed to retrieve columns', error);
     }
   }
 

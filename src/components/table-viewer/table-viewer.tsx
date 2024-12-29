@@ -9,6 +9,7 @@ import { TableViewerSelectFields } from './table-viewer-actions/table-viewer-sel
 import { TableViewerLimit } from './table-viewer-actions/table-viewer-limit';
 import { RemoveRecordsButton } from './remove-records/remove-records-button';
 import { cn } from '@/lib/utils';
+import { AddRecordButton } from './add-record/add-record-button';
 
 export const TableViewer = () => {
   const { isLoading, data, refetch } = useBuildQuery();
@@ -41,7 +42,7 @@ export const TableViewer = () => {
           {Boolean(selected.length) && (
             <RemoveRecordsButton rows={selected} refetch={() => refetch()} />
           )}
-          <Button size="sm">Add record</Button>
+          <AddRecordButton />
         </div>
       </header>
       <div className="h-[calc(100vh-84px)] overflow-auto">

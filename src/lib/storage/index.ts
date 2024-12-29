@@ -35,4 +35,8 @@ export class Storage {
   async getPrimaryKey(tableName: string) {
     return this.client.getPrimaryKey(tableName);
   }
+
+  async getColumns(tableName: string) {
+    return this.client.getColumns(tableName);
+  }
 }

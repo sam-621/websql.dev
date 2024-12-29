@@ -9,7 +9,7 @@ export const RefreshConnectionButton = () => {
   const { isLoading, refreshConnections } = useRefreshConnection();
 
   return (
-    <Button size="icon" variant="outline" onClick={refreshConnections}>
+    <Button disabled={isLoading} size="icon" variant="outline" onClick={refreshConnections}>
       <RefreshCcwIcon size={16} className={cn(isLoading && 'animate-spin')} />
     </Button>
   );

@@ -3,6 +3,7 @@ import { buildQuery } from './build-query';
 import { useTableViewerStore } from '../table-viewer.store';
 import { notification } from '@/lib/notification/notifications';
 import { useQuery } from 'react-query';
+import { CacheKeys } from '@/lib/constants/cache.constants';
 
 export const useBuildQuery = () => {
   const connections = useConnectionStore(state => state.connections);
@@ -11,7 +12,7 @@ export const useBuildQuery = () => {
   const addConfig = useTableViewerStore(state => state.addConfig);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: `build-query-${selectedTable?.table} ${selectedTable?.connection}`,
+    queryKey: CacheKeys.TableViewer(selectedTable?.table ?? '', selectedTable?.connection ?? ''),
     queryFn: async () => {
       if (!selectedTable) return;
 
