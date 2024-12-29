@@ -5,7 +5,6 @@ import { Button } from '../ui/button';
 import { useBuildQuery } from './build-query/use-build-query';
 import { useMemo, useState } from 'react';
 import { ResultTable } from './result-table';
-import { LoaderSpiner } from '@/lib/loaders/loader-spinner';
 import { TableViewerSelectFields } from './table-viewer-actions/table-viewer-select-fields';
 import { TableViewerLimit } from './table-viewer-actions/table-viewer-limit';
 import { RemoveRecordsButton } from './remove-records/remove-records-button';
