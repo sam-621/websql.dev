@@ -19,7 +19,7 @@ export const ResultTable: FC<Props> = ({ rows, result, onSelectChange }) => {
   );
 
   const isPrimaryKeySelected = tabConfig?.fields?.includes(tabConfig?.primaryKey);
-  const columns = rows.length ? rows : tabConfig?.allFields ?? [];
+  const columns = rows.length ? rows : tabConfig?.fields ?? [];
 
   useEffect(() => {
     onSelectChange(selected);

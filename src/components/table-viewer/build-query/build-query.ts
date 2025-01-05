@@ -21,7 +21,9 @@ export const buildQuery = async (connection: ConnectionConfig, input: Input) => 
     : '*';
   const limit = input.limit ? `LIMIT ${input.limit}` : 'LIMIT 100';
 
-  const result = await storage.buildQuery(`SELECT ${fields} FROM ${input.table} ${limit}`);
+  const query = `SELECT ${fields} FROM ${input.table} ${limit}`;
+
+  const result = await storage.buildQuery(query);
   const columns = await storage.getColumns(input.table);
 
   if (result instanceof QueryError) {

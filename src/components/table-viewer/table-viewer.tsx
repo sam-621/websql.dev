@@ -16,11 +16,13 @@ export const TableViewer = () => {
 
   const [selected, setSelected] = useState<typeof result>([]);
 
-  const [result, columns] = useMemo(() => {
+  const [result, columns, activeColumns] = useMemo(() => {
     const resultSet = data?.rows ?? [];
     const columns = data?.columns?.map(column => column.name) ?? [];
 
-    return [resultSet, columns];
+    const activeColumns = data?.rows?.length ? Object.keys(data.rows[0]).map(key => key) : [];
+
+    return [resultSet, columns, activeColumns];
   }, [data]);
 
   return (
@@ -46,7 +48,11 @@ export const TableViewer = () => {
         </div>
       </header>
       <div className="h-[calc(100vh-84px)] overflow-auto">
-        <ResultTable result={result} rows={columns} onSelectChange={rows => setSelected(rows)} />
+        <ResultTable
+          result={result}
+          rows={activeColumns}
+          onSelectChange={rows => setSelected(rows)}
+        />
       </div>
     </div>
   );
