@@ -9,6 +9,7 @@ import { ConnectionsListHeader } from '@/components/connection/connection-list/c
 import { ConnectionsList } from '@/components/connection/connection-list/connections-list';
 import { Nav } from '@/components/nav';
 import { QueryClientProvider } from './query-client';
+import { MobileWarningWrapper } from '@/components/mobile-warning/mobile-warning-wrapper';
 
 const interFont = Inter({
   variable: '--font-inter',
@@ -43,22 +44,23 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
             <Notification />
             <NextTopLoader color="hsl(var(--primary))" />
-
-            <div className="grid grid-cols-[auto,1fr] h-screen overflow-hidden">
-              <Nav />
-              <main className="w-full md:max-w-[calc(100vw-73px)]">
-                <ResizablePanelGroup direction="horizontal">
-                  <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
-                    <ConnectionsListHeader />
-                    <ConnectionsList />
-                  </ResizablePanel>
-                  <ResizableHandle />
-                  <ResizablePanel defaultSize={75} className="h-full">
-                    {children}
-                  </ResizablePanel>
-                </ResizablePanelGroup>
-              </main>
-            </div>
+            <MobileWarningWrapper>
+              <div className="grid grid-cols-[auto,1fr] h-screen overflow-hidden">
+                <Nav />
+                <main className="w-full md:max-w-[calc(100vw-73px)]">
+                  <ResizablePanelGroup direction="horizontal">
+                    <ResizablePanel defaultSize={25} className="divide-y bg-muted" minSize={20}>
+                      <ConnectionsListHeader />
+                      <ConnectionsList />
+                    </ResizablePanel>
+                    <ResizableHandle />
+                    <ResizablePanel defaultSize={75} className="h-full">
+                      {children}
+                    </ResizablePanel>
+                  </ResizablePanelGroup>
+                </main>
+              </div>
+            </MobileWarningWrapper>
           </ThemeProvider>
         </QueryClientProvider>
       </body>
