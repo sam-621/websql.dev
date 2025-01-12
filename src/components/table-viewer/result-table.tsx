@@ -86,9 +86,11 @@ export const ResultTable: FC<Props> = ({ rows, result, onSelectChange }) => {
                   return null;
                 }
 
+                console.log(typeof r[row]);
+
                 return (
                   <TableCell key={row} className="text-nowrap">
-                    {String(r[row])}
+                    {typeof r[row] === 'object' ? JSON.stringify(r[row]) : String(r[row])}
                   </TableCell>
                 );
               })}

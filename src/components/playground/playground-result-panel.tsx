@@ -38,7 +38,7 @@ export const PlaygroundResultPanel: FC<Props> = ({ error, result, isLoading }) =
                   {rows.map(row => {
                     return (
                       <TableCell key={row} className="text-nowrap">
-                        {String(r[row])}
+                        {typeof r[row] === 'object' ? JSON.stringify(r[row]) : String(r[row])}
                       </TableCell>
                     );
                   })}
